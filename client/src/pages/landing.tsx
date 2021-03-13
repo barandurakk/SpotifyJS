@@ -18,6 +18,8 @@ const Landing:React.FC = (props:any) => {
   const storedToken = localStorage.getItem("spotifyAuthToken")
 
   useEffect(() => {
+    debugger;
+    console.log("useEffect landing");
     if(user.id){
       props.history.push("/profile");
     }else if(storedToken){
@@ -27,13 +29,16 @@ const Landing:React.FC = (props:any) => {
 
 
   const handleAuth = async (token:tokenType) => {
+    console.log("handleAuth landing");
+    debugger;
     if (token) {
         await dispatch(fetchCurrentUser(token));
         props.history.push("/profile");  
     }
   };
-
+  debugger;
   return (
+    
     <div className="landing-container">
       <div className="leftSide-wrapper"></div>
       <div className="rightSide-wrapper">

@@ -12,12 +12,14 @@ const Profile:React.FC = (props:any) => {
   
 
   useEffect(() => {
+    debugger;
     if(authError){
       props.history.push("/");
     }
   }, [authError])// eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    debugger;
     if(token && !user.id){
 
       dispatch(fetchCurrentUser(token));
@@ -25,8 +27,6 @@ const Profile:React.FC = (props:any) => {
     }else if(!token){
       props.history.push("/");
     }
-    
-    console.log("storage token", token);
   }, [token]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return <div>

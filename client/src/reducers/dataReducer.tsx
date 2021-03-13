@@ -34,6 +34,7 @@ export const userDataSlice = createSlice({
                    profileLink: action.payload.href,
                  };
       state.loading=false;
+      state.authError=null;
     },
     [fetchCurrentUser.rejected.toString()]: (state:any, action) => {
       state.loading=false;
