@@ -1,28 +1,26 @@
 import React from "react";
-import { Router, Switch, Route } from "react-router-dom";
+import { Router, Route } from "react-router-dom";
 import createBrowserHistory from "history/createBrowserHistory";
 import axios from "axios";
 
 //components
-import Landing from "./pages/landing.js";
-import Panel from "./pages/panel.js";
+import Landing from "./pages/landing";
+import Profile from "./pages/profile";
 
 export const history = createBrowserHistory();
-
-
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = "http://localhost:5000";
 
-class App extends React.Component {
-  render() {
+const App:React.FC = () =>  {
+  
     return (
       <Router history={history}>
         <Route exact path="/" component={Landing} />
-        <Route exact path="/panel" component={Panel} />
+        <Route exact path="/profile" component={Profile} />
       </Router>
     );
-  }
+  
 }
 
 export default App;

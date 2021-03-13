@@ -23,6 +23,8 @@
 
     .welcome-header-wrapper {
       margin-bottom: 30px;
+      display: flex;
+      flex-direction: column;
       h1 {
         text-align: center;
         color: white;
