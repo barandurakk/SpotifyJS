@@ -11,11 +11,11 @@ module.exports = (app) => {
           return res.status(200).send(details.data);
         })
         .catch((err) => {
-          console.error(err);
-          res.status(500).send({ error: "Something is wrong!" });
+          if (err.response.status === 401) res.status(401).send({ error: "Invalid Token" });
+          return res.status(500).send({ error: "Something is wrong!" });
         });
     } else {
-      res.status(403).send({ error: "Token cannot found!" });
+      return res.status(403).send({ error: "Token cannot found!" });
     }
   });
 };

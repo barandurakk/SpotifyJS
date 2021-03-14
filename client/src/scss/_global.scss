@@ -1,0 +1,32 @@
+@import "./_variables.scss";
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background-color: $gray;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.loading-container {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  background-color: $dark;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .loading-spinner {
+    display: block;
+    margin: 0 auto;
+    color: $green;
+  }
+}
+
+.container {
+  width: 1440px;
+  margin: 0px auto;
+}
