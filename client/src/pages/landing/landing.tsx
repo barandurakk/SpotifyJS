@@ -2,7 +2,7 @@ import React,{useEffect} from "react";
 import keys from "../../config/keys";
 import { SpotifyAuth, Scopes } from "react-spotify-auth";
 import { useAppSelector, useAppDispatch } from "../../hooks/reduxHooks";
-import ScaleLoader from "react-spinners/ScaleLoader";
+import Loading from "../../util/Loading";
 
 //actions
 import { fetchCurrentUser } from "../../actions/index";
@@ -36,9 +36,7 @@ const Landing:React.FC = (props:any) => {
     <div className={styles.container}>
       {loading ? 
       (
-        <div className="loading-container">
-           <ScaleLoader color="#1db954" loading={true} height={60} css="display: block;" />
-          </div>
+        <Loading/>
       ) : 
       (
         <>

@@ -10,7 +10,9 @@ export const authSlice = createSlice({
     displayName:"",
     imageUrl:"",
     followers: 0,
-    profileLink:""
+    profileLink:"",
+    coverUrl: "",
+    aboutText: "",
   },
   loading: false, 
   authError: null,
@@ -26,7 +28,9 @@ export const authSlice = createSlice({
         displayName:"",
         imageUrl: "",
         followers: 0,
-        profileLink:""
+        profileLink:"",
+        coverUrl: "",
+        aboutText: "",
       }
     }
   },
@@ -36,16 +40,15 @@ export const authSlice = createSlice({
       state.loading=true;
     },
     [fetchCurrentUser.fulfilled.toString()]: (state:any, action) => {
-      let imageUrl;
-      {action.payload.images.slice(0,1).map((image:any) => {
-       imageUrl = image.url;
-      })}
+      console.log("response", action.payload);
       state.user = {
                    id: action.payload.id,
                    displayName: action.payload.display_name,
-                   imageUrl: imageUrl,
+                   imageUrl: action.payload.imageUrl,
                    followers: action.payload.followers.total,
-                   profileLink: action.payload.href,
+                   profileLink: action.payload.external_urls.spotify,
+                   coverUrl: action.payload.coverUrl,
+                   aboutText: action.payload.aboutText
                  };
       state.isAuthenticated=true
       state.loading=false;

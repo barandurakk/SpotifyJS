@@ -3,8 +3,64 @@
 
 .container {
   @include paperBox;
+  @include flex-column-centered;
   position: absolute;
   top: 150px;
-  width: 350px;
   min-height: 500px;
+  padding: 50px 40px;
+  .pictureWrapper {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 20px;
+    @include flex-column-centered;
+    .picture {
+      width: 375px;
+      height: auto;
+      box-shadow: 0px 3px 16px #00000071;
+    }
+  }
+  .name {
+    color: white;
+    font-size: 36px;
+    font-weight: 800;
+    transition: 0.7s;
+    cursor: pointer;
+    &:hover {
+      color: $green;
+      transition: 0.7s;
+    }
+  }
+  .followers {
+    margin-top: 5px;
+    color: white;
+    span {
+      color: $green;
+      font-weight: 700;
+    }
+  }
+  .aboutWrapper {
+    margin-top: 40px;
+    width: 300px;
+    padding: 10px 35px;
+    background-color: $dark;
+    border-radius: 20px;
+    max-height: 250px;
+    min-height: 100px;
+    overflow: hidden;
+    text-align: center;
+    h3 {
+      color: $green;
+      font-size: 16px;
+      font-weight: 400;
+      margin: 0px 0px 10px 0px;
+    }
+    span {
+      color: white;
+      font-weight: 400;
+      font-size: 14px;
+      width: 100%;
+    }
+  }
 }
