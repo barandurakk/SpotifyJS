@@ -1,9 +1,8 @@
 //redux
-import { AnyAction, configureStore, Reducer } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 
 import { authSlice } from "./slices/authSlice";
 import { userSlice } from "./slices/userSlice";
-//import { RootState } from "./types";
 
 export const store = configureStore({
   reducer: {
@@ -11,8 +10,3 @@ export const store = configureStore({
     user: userSlice.reducer,
   },
 });
-
-//clear store on logout
-export const rootReducer: Reducer = (action: AnyAction) => {
-  console.log(action.type);
-};

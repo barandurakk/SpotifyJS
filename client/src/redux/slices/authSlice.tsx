@@ -1,40 +1,50 @@
-import {createSlice} from "@reduxjs/toolkit"
-import {login} from "../asyncActions/index";
+import { createSlice } from "@reduxjs/toolkit"
+import { login, logout } from "../asyncActions/authActions";
+import axios from "axios";
+import { getLocalToken } from "../../util/getLocalToken";
 
 export const authSlice = createSlice({
   name: "authSlice",
 
-  initialState: 
+  initialState:
   {
-  loading: false, 
-  authError: null,
-  isAuthenticated: false
+    loading: false,
+    authError: null,
+    isAuthenticated: false
   },
 
   reducers: {
-    logoutUser: (state:any) => {
-      state.isAuthenticated= false;
-      localStorage.removeItem("spotifyAuthToken");
-    }
+
   },
 
   extraReducers: {
-    [login.pending.toString()]: (state:any) => {
-      state.loading=true;
+    //login
+    [login.pending.toString()]: (state: any) => {
+      state.loading = true;
     },
-    [login.fulfilled.toString()]: (state:any) => {
-      console.log("login Fullfilled!");
-      state.isAuthenticated=true
-      state.loading=false;
-      state.authError=null;
+    [login.fulfilled.toString()]: (state: any) => {
+      axios.defaults.headers.common['Authorization'] = getLocalToken();
+      state.isAuthenticated = true
+      state.loading = false;
+      state.authError = null;
     },
-    [login.rejected.toString()]: (state:any, action) => {
-      state.loading=false;
+    [login.rejected.toString()]: (state: any, action) => {
+      state.loading = false;
       state.authError = action.payload.error;
-      state.isAuthenticated=false;
+      state.isAuthenticated = false;
     },
 
+    //logout
+    [logout.pending.toString()]: (state: any) => {
+      state.loading = true;
+    },
+    [logout.fulfilled.toString()]: (state: any) => {
+      state.isAuthenticated = false;
+      localStorage.removeItem("spotifyAuthToken");
+      axios.defaults.headers.common['Authorization'] = null;
+      state.loading = false;
+    },
   }
 })
 
-export const {logoutUser} = authSlice.actions;
+export default authSlice;

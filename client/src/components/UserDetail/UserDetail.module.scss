@@ -12,14 +12,10 @@
     width: 200px;
     height: 200px;
     border-radius: 50%;
+    background-position: center center;
     overflow: hidden;
     margin-bottom: 20px;
-    @include flex-column-centered;
-    .picture {
-      width: 375px;
-      height: auto;
-      box-shadow: 0px 3px 16px #00000071;
-    }
+    box-shadow: 0px 3px 16px #00000071;
   }
   .name {
     color: white;
@@ -43,7 +39,7 @@
   .aboutWrapper {
     margin-top: 40px;
     width: 300px;
-    padding: 10px 35px;
+    padding: 10px 30px;
     background-color: $dark;
     border-radius: 20px;
     max-height: 250px;
@@ -54,7 +50,57 @@
       color: $green;
       font-size: 16px;
       font-weight: 400;
-      margin: 0px 0px 10px 0px;
+      margin: 0px;
+    }
+    .aboutContent {
+      @include flex-column-centered;
+      .editButton {
+        align-self: flex-end;
+        margin-top: -10px;
+        margin-bottom: 10px;
+        background: transparent;
+        color: white;
+        border: none;
+        cursor: pointer;
+        &:hover {
+          color: $green;
+        }
+      }
+      textarea {
+        margin-top: 10px;
+        background: #0a0909;
+        border-radius: 20px;
+        padding: 15px;
+        border: none;
+        color: white;
+        width: 100%;
+      }
+      .actionWrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        .submitButton {
+          font-size: 20px;
+          background: transparent;
+          color: $green;
+          border: none;
+          cursor: pointer;
+        }
+        .cancelButton {
+          font-size: 20px;
+          background: transparent;
+          color: red;
+          border: none;
+          cursor: pointer;
+        }
+      }
+      .errorMessage {
+        margin: 5px 0px;
+        font-size: 12px;
+        color: $green;
+      }
     }
     span {
       color: white;
