@@ -5,7 +5,7 @@ import { useAppSelector, useAppDispatch } from "../../hooks/reduxHooks";
 import Loading from "../../util/Loading";
 
 //actions
-import { fetchCurrentUser } from "../../actions/index";
+import { login } from "../../redux/asyncActions/index";
 
 import styles from "./landing.module.scss";
 import  "../../scss/_global.scss";
@@ -28,7 +28,7 @@ const Landing:React.FC = (props:any) => {
   const handleAuth = async (token:tokenType) => {
     
     if (token) {
-        await dispatch(fetchCurrentUser(token));
+        await dispatch(login(token));
         props.history.push("/profile");  
     }
   };

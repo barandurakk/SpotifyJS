@@ -47,7 +47,8 @@ module.exports = (app) => {
           }
         })
         .catch((err) => {
-          if (err.response.status === 401) return res.status(401).send({ error: "Invalid Token" });
+          if (err.response.status === 401)
+            return res.status(401).send({ error: "Session Timeout, Please Login Again" });
           return res.status(500).send({ error: "Something is wrong!" });
         });
     } else {

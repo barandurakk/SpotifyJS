@@ -1,13 +1,14 @@
 import React from "react";
 import {useAppSelector, useAppDispatch} from "../../hooks/reduxHooks";
 import styles from "./NavBar.module.scss";
-import {logoutUser} from "../../reducers/authReducer";
+import {logoutUser} from "../../redux/slices/authSlice";
 
 //global styles 
 import "../../scss/_global.scss";
 
 const NavBar:React.FC = () => {
-  const {user, loading} = useAppSelector(state=> state.auth); 
+  const {user} = useAppSelector(state=> state.user); 
+  const {loading} = useAppSelector(state=> state.auth); 
   const dispatch = useAppDispatch();
   const handleLogout = () => {
     dispatch(logoutUser());

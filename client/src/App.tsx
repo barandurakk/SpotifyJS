@@ -9,8 +9,10 @@ import Profile from "./pages/profile/profile";
 import NavBar from "./components/NavBar/NavBar";
 
 //redux
-import { fetchCurrentUser } from "./actions/index";
+import { login } from "./redux/asyncActions/index";
 import { useAppDispatch, useAppSelector } from "./hooks/reduxHooks";
+
+import {getLocalToken} from "./util/getLocalToken";
 
 export const history = createBrowserHistory();
 
@@ -19,12 +21,12 @@ axios.defaults.baseURL = "http://localhost:5000";
 
 const App:React.FC = () =>  {
   const dispatch = useAppDispatch(); 
-  const storedToken = localStorage.getItem("spotifyAuthToken");
+  const storedToken = getLocalToken();
   const {isAuthenticated} = useAppSelector(state => state.auth);
 
   useEffect(() => {
     if(storedToken){
-      dispatch(fetchCurrentUser(storedToken));
+      dispatch(login(storedToken));
     }
   }, [])// eslint-disable-line react-hooks/exhaustive-deps
   

@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./UserDetail.module.scss";
+import RefreshButton from "../RefreshButton/RefreshButton";
 
 //global styles 
 import "../../scss/_global.scss";
@@ -21,10 +22,11 @@ const UserDetail:React.FC<propType> = ({user}:propType) => {
 
   return (
     <div className={styles.container}> 
+     <RefreshButton/>
         <div className={styles.pictureWrapper}>
             <img 
                 src={user.imageUrl} 
-                alt={`${user.displayName}'s Profile Picture`}
+                alt={`${user.displayName}'s Profile`}
                 className={styles.picture}
             />
         </div>     

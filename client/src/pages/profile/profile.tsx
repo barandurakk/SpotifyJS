@@ -10,7 +10,8 @@ import "../../scss/_global.scss";
 import UserDetail from "../../components/UserDetail/UserDetail";
 
 const Profile:React.FC = (props:any) => {
-  const {user, authError, isAuthenticated, loading} = useAppSelector(state => state.auth);
+  const {authError, isAuthenticated, loading} = useAppSelector(state => state.auth);
+  const {user} = useAppSelector(state => state.user);
 
   useEffect(() => { 
     if(authError || !isAuthenticated){
