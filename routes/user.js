@@ -8,8 +8,6 @@ module.exports = (app) => {
     const body = req.body.body;
     const token = req.headers.authorization;
 
-    console.log("inside route");
-
     if (body.length > 200) {
       return res.status(400).send({ error: "About can't be longer than 200 character!" });
     }
