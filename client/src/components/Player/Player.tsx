@@ -43,7 +43,10 @@ const Player: React.FC = () => {
                 <RefreshButton location={"player"} />
             </div>
             <div className={styles.content}>
-                {player.loading ?
+                {!player.trackType ? (
+                    <h4 className={styles.errorMessage}>This user currenly not listening any track. <br /> Try refreshing!</h4>
+                ) : player.loading ?
+
                     (<div style={{ display: "flex", height: "100%", justifyContent: "center", alignItems: "center" }}>
                         <ScaleLoader color="#1db954" loading={true} height={60} css="display: block;" />
                     </div>
