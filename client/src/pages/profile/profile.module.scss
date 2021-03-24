@@ -12,6 +12,17 @@
   z-index: 5;
 }
 
+.content {
+  width: 100%;
+  padding: 0px 50px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  height: 250px;
+}
+
 .body {
   height: 100vh;
   background-color: $gray;

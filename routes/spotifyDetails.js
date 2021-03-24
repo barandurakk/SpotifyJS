@@ -11,7 +11,7 @@ module.exports = (app) => {
     axios
       .get("https://api.spotify.com/v1/me/player/currently-playing", setHeader(token))
       .then(async (currentTrack) => {
-        console.log(currentTrack.data);
+        console.log("data: ", currentTrack.data);
         return res.status(200).send({ currentTrack: currentTrack.data });
       })
       .catch((err) => {

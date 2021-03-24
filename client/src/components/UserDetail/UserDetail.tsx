@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styles from "./UserDetail.module.scss";
-import RefreshButton from "../RefreshButton/RefreshButton";
 import { useDispatch } from "react-redux";
 import { setAboutText } from "../../redux/asyncActions/userActions";
 
@@ -40,7 +39,6 @@ const UserDetail: React.FC<propType> = ({ user }: propType) => {
 
     return (
         <div className={styles.container}>
-            <RefreshButton />
             <div className={styles.pictureWrapper} style={{ backgroundImage: `url(${user.imageUrl})` }}>
             </div>
             <a href={user.profileLink}> <span className={styles.name}>{user.displayName}</span></a>

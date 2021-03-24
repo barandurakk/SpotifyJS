@@ -1,5 +1,6 @@
 import React from "react";
 import { useAppSelector, useAppDispatch } from "../../hooks/reduxHooks";
+import RefreshButton from "../RefreshButton/RefreshButton";
 import styles from "./NavBar.module.scss";
 import { logout } from "../../redux/asyncActions/authActions";
 
@@ -11,7 +12,7 @@ const NavBar: React.FC = () => {
   const { loading } = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
   const handleLogout = () => {
-    dispatch(logout("Succesfully logged out!"));
+    dispatch(logout());
   }
 
   return <div className={styles.container}>
@@ -23,6 +24,7 @@ const NavBar: React.FC = () => {
           <h1>SpotifyJS</h1>
         </div>
         <div className={styles.userActions}>
+          <RefreshButton location={"profile"} />
           <span className={styles.userName}>
             {user.displayName}
           </span>

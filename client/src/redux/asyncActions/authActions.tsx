@@ -23,10 +23,10 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk(
   "LOG_OUT",
-  async (logoutMessage: string, thunkAPI) => {
+  async (_, thunkAPI) => {
 
     await thunkAPI.dispatch(unsetUser());
-    return logoutMessage;
+    return true;
 
   }
 )

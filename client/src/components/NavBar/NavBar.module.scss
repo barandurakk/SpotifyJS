@@ -29,6 +29,7 @@
     .userName {
       color: white;
       font-weight: 600;
+      margin-left: 10px;
     }
     .logoutButton {
       @include styledButton;

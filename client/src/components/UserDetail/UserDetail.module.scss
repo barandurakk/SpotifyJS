@@ -4,8 +4,9 @@
 .container {
   @include paperBox;
   @include flex-column-centered;
-  position: absolute;
-  top: 150px;
+  position: relative;
+  top: -250px;
+  max-width: 350px;
   min-height: 500px;
   padding: 20px 20px;
   .pictureWrapper {

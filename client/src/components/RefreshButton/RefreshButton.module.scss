@@ -1,19 +1,19 @@
 @import "../../scss/_variables.scss";
 @import "../../scss/mixins.scss";
 
-.wrapper{
-    align-self: flex-end;
-    button{
-        background: transparent;
-        outline: none;
-        border: none;
-        cursor: pointer;
-        i{
-            color: white;
-            font-size: 18px;
-            &:hover{
-                color: $green;
-            }
-        }
+.wrapper {
+  align-self: center;
+  button {
+    background: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    i {
+      color: white;
+      font-size: 18px;
+      &:hover {
+        color: $green;
+      }
     }
+  }
 }

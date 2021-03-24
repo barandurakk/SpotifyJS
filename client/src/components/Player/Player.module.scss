@@ -1,0 +1,59 @@
+@import "../../scss/_variables.scss";
+@import "../../scss/mixins.scss";
+
+.container {
+  margin: 10px 0px 10px 10px;
+  height: 97%;
+  width: 100%;
+  border-radius: 15px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: rgba($light, 0.8);
+  background-blend-mode: multiply;
+  overflow: hidden;
+  .topBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: rgba($dark, 0.6);
+    width: 100%;
+    padding: 5px 10px;
+    color: white;
+    font-size: 14px;
+  }
+  .content {
+    padding: 5px 15px;
+    height: 90%;
+    .trackName {
+      font-size: 36px;
+      color: $green;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .artistsWrapper {
+      a {
+        text-decoration: none;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 400;
+        font-style: italic;
+      }
+    }
+    .playerWrapper {
+      padding: 35px 10px 40px 10px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      span {
+        cursor: pointer;
+        margin-right: 10px;
+        i {
+          color: $green;
+          font-size: 62px;
+        }
+      }
+    }
+  }
+}
