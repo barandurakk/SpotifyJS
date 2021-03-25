@@ -5,13 +5,13 @@ import App from "./App";
 
 //redux
 import { Provider } from "react-redux";
-import {store} from "../src/redux/store";
-
+import { store } from "../src/redux/store";
+//selam
 ReactDOM.render(
   <React.StrictMode>
-  <Provider store={store}>
-    <App />
-  </Provider>
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
