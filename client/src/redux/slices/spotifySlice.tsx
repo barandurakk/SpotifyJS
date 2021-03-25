@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCurrentTrack } from "../asyncActions/spotifyActions";
+import { getCurrentTrack, getTopDetails } from "../asyncActions/spotifyActions";
 
 export const spotifySlice = createSlice({
     name: "spotifySlice",
@@ -16,6 +16,11 @@ export const spotifySlice = createSlice({
             isPlaying: false,
             loading: false,
             error: ""
+        },
+        topTracks: {
+            loading: false,
+            error: "",
+            trackList: [{ name: "", external_urls: { spotify: "" }, popularity: 0, image: "" }]
         }
     },
 
@@ -24,12 +29,11 @@ export const spotifySlice = createSlice({
     },
 
     extraReducers: {
-        //setaboutText
+        //get Current Track 
         [getCurrentTrack.pending.toString()]: (state: any) => {
             state.currentTrack.loading = true;
         },
         [getCurrentTrack.fulfilled.toString()]: (state: any, action) => {
-            console.log("currentTrack: ", action.payload);
             let player = action.payload;
             //set track
             if (player.currently_playing_type === "track") {
@@ -49,6 +53,33 @@ export const spotifySlice = createSlice({
             console.log("err");
             state.currentTrack.loading = false;
             state.currentTrack.error = action.payload.error;
+        },
+
+
+        //get top tracks
+        [getTopDetails.pending.toString()]: (state: any) => {
+            state.topTracks.loading = true;
+        },
+        [getTopDetails.fulfilled.toString()]: (state: any, action) => {
+            let top = action.payload;
+            //set track
+            if (top.type === "tracks") {
+                state.topTracks.trackList = top.items.map((track: any) => (
+                    {
+                        name: track.name,
+                    }
+                ));
+
+                //set track loading status
+                state.topTracks.loading = false;
+            } else if (top.type === "artists") {
+
+            }
+        },
+        [getTopDetails.rejected.toString()]: (state: any, action) => {
+            console.log("err");
+            state.topTracks.loading = false;
+            state.topTracks.error = action.payload.error;
         },
     }
 })

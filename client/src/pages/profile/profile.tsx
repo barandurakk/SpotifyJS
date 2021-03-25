@@ -39,6 +39,9 @@ const Profile: React.FC = (props: any) => {
                   <UserDetail user={user} />
                   {isAuthenticated && <Player />}
                 </div>
+                <div className={styles.row}>
+
+                </div>
               </div>
             </div>
           </>

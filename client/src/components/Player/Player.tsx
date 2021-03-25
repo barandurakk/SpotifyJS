@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { getCurrentTrack } from "../../redux/asyncActions/spotifyActions";
+import { getCurrentTrack, playCurrentTrack, stopCurrentTrack, getTopDetails } from "../../redux/asyncActions/spotifyActions";
 
 import PlayerProgressBar from "./PlayerProgressBar";
 import RefreshButton from "../RefreshButton/RefreshButton";
@@ -15,8 +15,8 @@ const Player: React.FC = () => {
     const [isPlaying, setIsPlaying] = useState(player.isPlaying ? false : true)
 
     useEffect(() => {
-
         dispatch(getCurrentTrack());
+        dispatch(getTopDetails("tracks"));
 
     }, [])// eslint-disable-line react-hooks/exhaustive-deps
 
@@ -27,13 +27,13 @@ const Player: React.FC = () => {
     }, [player.isPlaying])// eslint-disable-line react-hooks/exhaustive-deps
 
     const handlePause = async () => {
-
         setIsPlaying(false);
+        dispatch(stopCurrentTrack());
     }
 
     const handlePlay = async () => {
-
         setIsPlaying(true);
+        dispatch(playCurrentTrack());
     }
 
     return (

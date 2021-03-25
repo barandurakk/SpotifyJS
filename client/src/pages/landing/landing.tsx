@@ -60,6 +60,7 @@ const Landing: React.FC = (props: any) => {
                     "user-read-recently-played",
                     "user-read-currently-playing",
                     "user-follow-read",
+                    "user-modify-playback-state"
                   ]}
                   localStorage={true}
                   showDialog={true}
