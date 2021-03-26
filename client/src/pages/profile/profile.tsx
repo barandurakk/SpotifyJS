@@ -9,6 +9,7 @@ import "../../scss/_global.scss";
 //components
 import UserDetail from "../../components/UserDetail/UserDetail";
 import Player from "../../components/Player/Player";
+import TopTracks from "../../components/TopTracks/TopTracks";
 
 const Profile: React.FC = (props: any) => {
   const { authError, isAuthenticated, loading } = useAppSelector(state => state.auth);
@@ -40,7 +41,7 @@ const Profile: React.FC = (props: any) => {
                   {isAuthenticated && <Player />}
                 </div>
                 <div className={styles.row}>
-
+                  {isAuthenticated && <TopTracks />}
                 </div>
               </div>
             </div>

@@ -61,18 +61,19 @@ export const spotifySlice = createSlice({
             state.topTracks.loading = true;
         },
         [getTopDetails.fulfilled.toString()]: (state: any, action) => {
-            let top = action.payload;
+            let top = action.payload.top;
+            console.log(action.payload.top);
             //set track
-            if (top.type === "tracks") {
+            if (action.payload.type === "tracks") {
                 state.topTracks.trackList = top.items.map((track: any) => (
                     {
                         name: track.name,
                     }
                 ));
 
-                //set track loading status
+                //set track loading status 
                 state.topTracks.loading = false;
-            } else if (top.type === "artists") {
+            } else if (action.payload.type === "artists") {
 
             }
         },
