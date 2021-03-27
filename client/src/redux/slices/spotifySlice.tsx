@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCurrentTrack, getTopDetails } from "../asyncActions/spotifyActions";
+import { getCurrentTrack, getTopDetails, getRecentTracks } from "../asyncActions/spotifyActions";
 
 export const spotifySlice = createSlice({
     name: "spotifySlice",
@@ -20,7 +20,17 @@ export const spotifySlice = createSlice({
         topTracks: {
             loading: false,
             error: "",
-            trackList: [{ name: "", external_urls: { spotify: "" }, popularity: 0, image: "" }]
+            trackList: [{ id: 0, name: "", url: "", popularity: 0, imageUrl: "", artists: [{ id: 0, name: "", url: "" }] }]
+        },
+        topArtists: {
+            loading: false,
+            error: "",
+            artistList: [{ id: 0, name: "", url: "", popularity: 0, imageUrl: "", followers: "" }]
+        },
+        recentTracks: {
+            loading: false,
+            error: "",
+            recentList: [{ id: 0, name: "", url: "", popularity: 0, imageUrl: "", artists: [{ id: 0, name: "", url: "" }] }]
         }
     },
 
@@ -62,25 +72,68 @@ export const spotifySlice = createSlice({
         },
         [getTopDetails.fulfilled.toString()]: (state: any, action) => {
             let top = action.payload.top;
-            console.log(action.payload.top);
             //set track
             if (action.payload.type === "tracks") {
                 state.topTracks.trackList = top.items.map((track: any) => (
                     {
+                        id: track.id,
                         name: track.name,
+                        popularity: track.popularity,
+                        url: track.external_urls.spotify,
+                        artists: track.artists.map((artist: any) => ({ id: artist.id, name: artist.name, url: artist.external_urls.spotify })),
+                        imageUrl: track.album.images[0].url
                     }
                 ));
 
                 //set track loading status 
                 state.topTracks.loading = false;
             } else if (action.payload.type === "artists") {
-
+                state.topArtists.artistList = top.items.map((artist: any) => (
+                    {
+                        id: artist.id,
+                        name: artist.name,
+                        popularity: artist.popularity,
+                        url: artist.external_urls.spotify,
+                        followers: artist.followers.total,
+                        imageUrl: artist.images[0].url
+                    }
+                ));
+                //set artist loading status 
+                state.topArtists.loading = false;
             }
         },
         [getTopDetails.rejected.toString()]: (state: any, action) => {
             console.log("err");
-            state.topTracks.loading = false;
-            state.topTracks.error = action.payload.error;
+            state.recentTracks.loading = false;
+            state.recentTracks.error = action.payload.error;
+        },
+
+
+        //get recent tracks
+        [getRecentTracks.pending.toString()]: (state: any) => {
+            state.recentTracks.loading = true;
+        },
+        [getRecentTracks.fulfilled.toString()]: (state: any, action) => {
+            let recents = action.payload.items;
+
+            state.recentTracks.recentList = recents.map((item: any) => (
+                {
+                    id: item.track.id,
+                    name: item.track.name,
+                    popularity: item.track.popularity,
+                    url: item.track.external_urls.spotify,
+                    artists: item.track.artists.map((artist: any) => ({ id: artist.id, name: artist.name, url: artist.external_urls.spotify })),
+                    imageUrl: item.track.album.images[0].url
+                }
+            ));
+            console.log(state.recentTracks.recentList);
+            state.recentTracks.loading = false;
+
+        },
+        [getRecentTracks.rejected.toString()]: (state: any, action) => {
+            console.log("err");
+            state.recentTracks.loading = false;
+            state.recentTracks.error = action.payload.error;
         },
     }
 })

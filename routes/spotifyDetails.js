@@ -71,4 +71,22 @@ module.exports = (app) => {
         return res.status(500).send({ error: "Can't connect to spotify servers!" });
       });
   });
+
+  //get users top track and artists
+  app.get("/api/getRecentTracks", async (req, res) => {
+    const token = req.headers.authorization;
+
+    if (!token) {
+      return res.status(401).send({ error: "Session timeout, please login again!" });
+    }
+
+    axios
+      .get(`https://api.spotify.com/v1/me/player/recently-played`, setHeader(token))
+      .then(async (response) => {
+        return res.status(200).send(response.data);
+      })
+      .catch((err) => {
+        return res.status(500).send({ error: "Can't connect to spotify servers!" });
+      });
+  });
 };

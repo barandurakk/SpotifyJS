@@ -41,7 +41,7 @@ const UserDetail: React.FC<propType> = ({ user }: propType) => {
         <div className={styles.container}>
             <div className={styles.pictureWrapper} style={{ backgroundImage: `url(${user.imageUrl})` }}>
             </div>
-            <a href={user.profileLink}> <span className={styles.name}>{user.displayName}</span></a>
+            <a href={user.profileLink} target={"_blank"}> <span className={styles.name}>{user.displayName}</span></a>
             <span className={styles.followers}>Followers: <span>{user.followers}</span></span>
             <div className={styles.aboutWrapper}>
                 <h3>ABOUT</h3>
@@ -50,7 +50,7 @@ const UserDetail: React.FC<propType> = ({ user }: propType) => {
                         (
                             <>
                                 <textarea
-                                    rows={8}
+                                    rows={4}
                                     name="aboutText"
                                     value={aboutInput}
                                     onChange={(e) => handleChange(e)}

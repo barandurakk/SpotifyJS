@@ -1,29 +1,29 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { getTopDetails } from "../../redux/asyncActions/spotifyActions";
+import { getRecentTracks } from "../../redux/asyncActions/spotifyActions";
 
-import s from "./TopTracks.module.scss";
+import s from "./RecentTracks.module.scss";
 
 import ProgressBar from "../ProgressBar/ProgressBar";
 
 
-const TopTracks: React.FC = () => {
+const RecentTracks: React.FC = () => {
     const dispatch = useAppDispatch();
-    const topTracks = useAppSelector(state => state.spotify.topTracks);
-    const tracks = topTracks.trackList;
+    const recentTracks = useAppSelector(state => state.spotify.recentTracks);
+    const tracks = recentTracks.recentList;
 
     useEffect(() => {
 
-        dispatch(getTopDetails("tracks"));
+        dispatch(getRecentTracks());
 
     }, [])
     return (
         <div className={s.container}>
             <div className={s.headerWrapper}>
-                <h3>Top Tracks</h3>
+                <h3>Recently Played</h3>
             </div>
             <div className={s.content}>
-                {topTracks.loading ? (
+                {recentTracks.loading ? (
                     <div>Loading...</div>
                 ) : (
                     tracks.map(track => {
@@ -62,4 +62,4 @@ const TopTracks: React.FC = () => {
 
 }
 
-export default TopTracks;
+export default RecentTracks;

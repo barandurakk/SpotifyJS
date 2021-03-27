@@ -3,7 +3,7 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { getCurrentTrack, playCurrentTrack, stopCurrentTrack } from "../../redux/asyncActions/spotifyActions";
 
-import PlayerProgressBar from "./PlayerProgressBar";
+import ProgressBar from "../ProgressBar/ProgressBar";
 import RefreshButton from "../RefreshButton/RefreshButton";
 
 import styles from "./Player.module.scss";
@@ -51,15 +51,15 @@ const Player: React.FC = () => {
                     </div>
                     ) : (
                         <>
-                            <a href={player.trackUrl} className={styles.trackName}>
+                            <a href={player.trackUrl} className={styles.trackName} target={"_blank"}>
                                 {player.trackName.length > 40 ? `${player.trackName.slice(0, 38)}...` : `${player.trackName}`}
                             </a>
                             <div className={styles.artistsWrapper}>
                                 {player.trackArtists.map((artist, i) => {
                                     if (i === player.trackArtists.length - 1) {
-                                        return <a href={artist.external_urls.spotify} key={i}><span>{artist.name}</span></a>
+                                        return <a target={"_blank"} href={artist.external_urls.spotify} key={i}><span>{artist.name}</span></a>
                                     } else {
-                                        return <a href={artist.external_urls.spotify} key={i}><span>{artist.name} - </span></a>
+                                        return <a target={"_blank"} href={artist.external_urls.spotify} key={i}><span>{artist.name} - </span></a>
                                     }
                                 })}
                             </div>
@@ -68,13 +68,15 @@ const Player: React.FC = () => {
                                     (
                                         <span
                                             onClick={() => handlePause()}
+                                            className={styles.playerIcon}
                                         ><i className="fas fa-pause"></i></span>
                                     ) : (
                                         <span
                                             onClick={() => handlePlay()}
+                                            className={styles.playerIcon}
                                         ><i className="fas fa-play"></i></span>
                                     )}
-                                <PlayerProgressBar progress={player.progress} duration={player.duration} />
+                                <ProgressBar progress={player.progress} duration={player.duration} backgroundColor={"#121212"} progressColor={"#1db954"} width={10} />
                             </div>
                         </>
                     )}

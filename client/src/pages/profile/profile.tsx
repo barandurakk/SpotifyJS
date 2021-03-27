@@ -10,6 +10,8 @@ import "../../scss/_global.scss";
 import UserDetail from "../../components/UserDetail/UserDetail";
 import Player from "../../components/Player/Player";
 import TopTracks from "../../components/TopTracks/TopTracks";
+import TopArtists from "../../components/TopArtists/TopArtists";
+import RecentTracks from "../../components/RecentTracks/RecentTracks";
 
 const Profile: React.FC = (props: any) => {
   const { authError, isAuthenticated, loading } = useAppSelector(state => state.auth);
@@ -36,12 +38,14 @@ const Profile: React.FC = (props: any) => {
             </div>
             <div className={styles.body}>
               <div className={styles.content}>
-                <div className={styles.row}>
+                <div className={styles.topRow}>
                   <UserDetail user={user} />
                   {isAuthenticated && <Player />}
                 </div>
                 <div className={styles.row}>
                   {isAuthenticated && <TopTracks />}
+                  {isAuthenticated && <TopArtists />}
+                  {isAuthenticated && <RecentTracks />}
                 </div>
               </div>
             </div>

@@ -20,11 +20,9 @@ export const playCurrentTrack = createAsyncThunk(
     "PLAY_CURRENT_TRACK",
     async (_, thunkAPI) => {
         try {
-            const res = await axios.get("/api/playTrack");
-            console.log(res);
+            await axios.get("/api/playTrack");
 
         } catch (err) {
-            console.log(err);
             return thunkAPI.rejectWithValue(err.response.data);
         }
     }
@@ -48,12 +46,29 @@ export const getTopDetails = createAsyncThunk(
         try {
             const response = await axios.post("/api/getUsersTop", { type });
             if (response) {
-                console.log(response.data);
                 const res = { ...response.data, type }
                 return res;
             }
 
         } catch (err) {
+            return thunkAPI.rejectWithValue(err.response.data);
+        }
+    }
+)
+
+export const getRecentTracks = createAsyncThunk(
+    "GET_RECENT_TRACKS",
+    async (_, thunkAPI) => {
+        try {
+            const response = await axios.get("/api/getRecentTracks");
+            if (response) {
+
+                const res = response.data
+                return res;
+            }
+
+        } catch (err) {
+
             return thunkAPI.rejectWithValue(err.response.data);
         }
     }
