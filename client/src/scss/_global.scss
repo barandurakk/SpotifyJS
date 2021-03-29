@@ -9,6 +9,16 @@ body {
   font-family: "Barlow", sans-serif;
 }
 
+::-webkit-scrollbar {
+  background: transparent;
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $lightest;
+  border-radius: 15px;
+}
+
 * {
   box-sizing: border-box;
 }

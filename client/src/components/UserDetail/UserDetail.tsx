@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./UserDetail.module.scss";
-import { useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { setAboutText } from "../../redux/asyncActions/userActions";
 
 //global styles 
@@ -20,7 +20,8 @@ interface userType {
 type propType = userType
 
 const UserDetail: React.FC<propType> = ({ user }: propType) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
+    const totalPopularity = useAppSelector(state => state.spotify.topTracks.totalPopularity);
     const [isEditing, setIsEditing] = useState(false);
     const [aboutInput, setAboutInput] = useState(user.aboutText.length > 199 ? `${user.aboutText.slice(0, 200)}...` : `${user.aboutText}`);
     const [formError, setFormError] = useState("");
@@ -43,6 +44,8 @@ const UserDetail: React.FC<propType> = ({ user }: propType) => {
             </div>
             <a href={user.profileLink} target={"_blank"}> <span className={styles.name}>{user.displayName}</span></a>
             <span className={styles.followers}>Followers: <span>{user.followers}</span></span>
+            <span className={styles.followers}>Average Popularity: <span>% {totalPopularity}</span></span>
+
             <div className={styles.aboutWrapper}>
                 <h3>ABOUT</h3>
                 <div className={styles.aboutContent}>

@@ -20,7 +20,8 @@ export const spotifySlice = createSlice({
         topTracks: {
             loading: false,
             error: "",
-            trackList: [{ id: 0, name: "", url: "", popularity: 0, imageUrl: "", artists: [{ id: 0, name: "", url: "" }] }]
+            trackList: [{ id: 0, name: "", url: "", popularity: 0, imageUrl: "", artists: [{ id: 0, name: "", url: "" }] }],
+            totalPopularity: 0
         },
         topArtists: {
             loading: false,
@@ -72,10 +73,14 @@ export const spotifySlice = createSlice({
         },
         [getTopDetails.fulfilled.toString()]: (state: any, action) => {
             let top = action.payload.top;
+            let totalPop = 0;
+
+
             //set track
             if (action.payload.type === "tracks") {
-                state.topTracks.trackList = top.items.map((track: any) => (
-                    {
+                state.topTracks.trackList = top.items.map((track: any) => {
+                    totalPop += track.popularity;
+                    return {
                         id: track.id,
                         name: track.name,
                         popularity: track.popularity,
@@ -83,7 +88,8 @@ export const spotifySlice = createSlice({
                         artists: track.artists.map((artist: any) => ({ id: artist.id, name: artist.name, url: artist.external_urls.spotify })),
                         imageUrl: track.album.images[0].url
                     }
-                ));
+                });
+                state.topTracks.totalPopularity = (totalPop / 20).toFixed(1);
 
                 //set track loading status 
                 state.topTracks.loading = false;
@@ -126,7 +132,6 @@ export const spotifySlice = createSlice({
                     imageUrl: item.track.album.images[0].url
                 }
             ));
-            console.log(state.recentTracks.recentList);
             state.recentTracks.loading = false;
 
         },
