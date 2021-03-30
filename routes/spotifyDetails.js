@@ -89,4 +89,22 @@ module.exports = (app) => {
         return res.status(500).send({ error: "Can't connect to spotify servers!" });
       });
   });
+
+  //get users owned playlists
+  app.get("/api/getUserPlaylists", async (req, res) => {
+    const token = req.headers.authorization;
+
+    if (!token) {
+      return res.status(401).send({ error: "Session timeout, please login again!" });
+    }
+
+    axios
+      .get(`https://api.spotify.com/v1/me/playlists`, setHeader(token))
+      .then(async (response) => {
+        return res.status(200).send(response.data);
+      })
+      .catch((err) => {
+        return res.status(500).send({ error: "Can't connect to spotify servers!" });
+      });
+  });
 };

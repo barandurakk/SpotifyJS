@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCurrentTrack, getTopDetails, getRecentTracks } from "../asyncActions/spotifyActions";
+import { getCurrentTrack, getTopDetails, getRecentTracks, getUsersPlaylist } from "../asyncActions/spotifyActions";
 
 export const spotifySlice = createSlice({
     name: "spotifySlice",
@@ -32,6 +32,11 @@ export const spotifySlice = createSlice({
             loading: false,
             error: "",
             recentList: [{ id: 0, name: "", url: "", popularity: 0, imageUrl: "", artists: [{ id: 0, name: "", url: "" }] }]
+        },
+        playlists: {
+            loading: false,
+            error: "",
+            playlistList: [{ id: 0, name: "", url: "", totalTrack: 0, imageUrl: "", description: "" }]
         }
     },
 
@@ -139,6 +144,31 @@ export const spotifySlice = createSlice({
             console.log("err");
             state.recentTracks.loading = false;
             state.recentTracks.error = action.payload.error;
+        },
+
+        //get users playlists
+        [getUsersPlaylist.pending.toString()]: (state: any) => {
+            state.playlists.loading = true;
+        },
+        [getUsersPlaylist.fulfilled.toString()]: (state: any, action) => {
+            let playlists = action.payload.items;
+
+            state.playlists.playlistList = playlists.map((item: any) => (
+                {
+                    id: item.id,
+                    name: item.name,
+                    totalTrack: item.tracks.total,
+                    url: item.external_urls.spotify,
+                    description: item.description,
+                    imageUrl: item.images[0].url
+                }
+            ));
+            state.playlists.loading = false;
+
+        },
+        [getUsersPlaylist.rejected.toString()]: (state: any, action) => {
+            state.playlists.loading = false;
+            state.playlists.error = action.payload.error;
         },
     }
 })

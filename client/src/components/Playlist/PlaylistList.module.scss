@@ -1,0 +1,59 @@
+@import "../../scss/_variables.scss";
+@import "../../scss/mixins.scss";
+
+.container {
+  margin: 10px 0px 10px 10px;
+  height: 97%;
+  background-color: $light;
+  border-radius: 15px;
+  overflow: hidden;
+  width: 40%;
+  .headerWrapper {
+    padding: 6px 0px 7px 15px;
+    h3 {
+      margin: 0;
+      color: white;
+      font-size: 22px;
+    }
+  }
+  .content {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 85%;
+    border-radius: 25px;
+    .listItem {
+      display: grid;
+      grid-template-columns: 80px auto;
+      margin: 5px;
+      border-radius: 20px;
+      background-color: $dark;
+      width: 100%;
+      .image {
+        min-width: 65px;
+        min-height: 65px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+      .itemContent {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 5px 0px 15px 0px;
+        width: 100%;
+        .name {
+          a {
+            color: $green;
+            font-size: 16px;
+            font-weight: 500;
+          }
+        }
+        .description {
+          color: rgba(white, 0.6);
+          font-style: italic;
+          font-size: 10px;
+        }
+      }
+    }
+  }
+}

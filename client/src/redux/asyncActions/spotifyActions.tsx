@@ -73,3 +73,21 @@ export const getRecentTracks = createAsyncThunk(
         }
     }
 )
+
+export const getUsersPlaylist = createAsyncThunk(
+    "GET_USERS_PLAYLISTS",
+    async (_, thunkAPI) => {
+        try {
+            const response = await axios.get("/api/getUserPlaylists");
+            if (response) {
+                console.log("playlist: ", response.data)
+                const res = response.data
+                return res;
+            }
+
+        } catch (err) {
+
+            return thunkAPI.rejectWithValue(err.response.data);
+        }
+    }
+)

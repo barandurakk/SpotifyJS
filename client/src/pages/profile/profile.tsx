@@ -12,6 +12,7 @@ import Player from "../../components/Player/Player";
 import TopTracks from "../../components/TopTracks/TopTracks";
 import TopArtists from "../../components/TopArtists/TopArtists";
 import RecentTracks from "../../components/RecentTracks/RecentTracks";
+import PlaylistList from "../../components/Playlist/PlaylistList";
 
 const Profile: React.FC = (props: any) => {
   const { authError, isAuthenticated, loading } = useAppSelector(state => state.auth);
@@ -40,6 +41,7 @@ const Profile: React.FC = (props: any) => {
               <div className={styles.content}>
                 <div className={styles.topRow}>
                   <UserDetail user={user} />
+                  <PlaylistList />
                   {isAuthenticated && <Player />}
                 </div>
                 <div className={styles.row}>
