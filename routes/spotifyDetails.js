@@ -62,10 +62,36 @@ module.exports = (app) => {
       return res.status(401).send({ error: "Session timeout, please login again!" });
     }
 
+    let config = setHeader(token);
+    //Adjust time param to short
+    config = { ...config, params: { time_range: "short_term" } };
+    console.log("Config short:", config);
     axios
-      .get(`https://api.spotify.com/v1/me/top/${type}`, setHeader(token))
-      .then(async (response) => {
-        return res.status(200).send({ top: response.data });
+      .get(`https://api.spotify.com/v1/me/top/${type}`, config)
+      .then(async (resShort) => {
+        console.log("ShorTermRes: ", resShort.data);
+        //Adjust time param to medium
+        config = { ...config, params: { time_range: "medium_term" } };
+        axios
+          .get(`https://api.spotify.com/v1/me/top/${type}`, config)
+          .then(async (resMedium) => {
+            //Adjust time param to long
+            config = { ...config, params: { time_range: "long_term" } };
+            axios
+              .get(`https://api.spotify.com/v1/me/top/${type}`, config)
+              .then(async (resLong) => {
+                //Send succesfull response
+                return res.status(200).send({
+                  top: { short: resShort.data, medium: resMedium.data, long: resLong.data },
+                });
+              })
+              .catch((err) => {
+                return res.status(500).send({ error: "Can't connect to spotify servers!" });
+              });
+          })
+          .catch((err) => {
+            return res.status(500).send({ error: "Can't connect to spotify servers!" });
+          });
       })
       .catch((err) => {
         return res.status(500).send({ error: "Can't connect to spotify servers!" });

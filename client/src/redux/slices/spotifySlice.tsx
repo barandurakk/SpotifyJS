@@ -20,13 +20,21 @@ export const spotifySlice = createSlice({
         topTracks: {
             loading: false,
             error: "",
-            trackList: [{ id: 0, name: "", url: "", popularity: 0, imageUrl: "", artists: [{ id: 0, name: "", url: "" }] }],
+            trackList: {
+                short_term: [{ id: 0, name: "", url: "", popularity: 0, imageUrl: "", artists: [{ id: 0, name: "", url: "" }] }],
+                medium_term: [{ id: 0, name: "", url: "", popularity: 0, imageUrl: "", artists: [{ id: 0, name: "", url: "" }] }],
+                long_term: [{ id: 0, name: "", url: "", popularity: 0, imageUrl: "", artists: [{ id: 0, name: "", url: "" }] }],
+            },
             totalPopularity: 0
         },
         topArtists: {
             loading: false,
             error: "",
-            artistList: [{ id: 0, name: "", url: "", popularity: 0, imageUrl: "", followers: "" }]
+            artistList: {
+                short_term: [{ id: 0, name: "", url: "", popularity: 0, imageUrl: "", followers: "" }],
+                medium_term: [{ id: 0, name: "", url: "", popularity: 0, imageUrl: "", followers: "" }],
+                long_term: [{ id: 0, name: "", url: "", popularity: 0, imageUrl: "", followers: "" }]
+            }
         },
         recentTracks: {
             loading: false,
@@ -78,12 +86,37 @@ export const spotifySlice = createSlice({
         },
         [getTopDetails.fulfilled.toString()]: (state: any, action) => {
             let top = action.payload.top;
+            let shortTerm = top.short;
+            let mediumTerm = top.medium;
+            let longTerm = top.long;
             let totalPop = 0;
 
 
             //set track
             if (action.payload.type === "tracks") {
-                state.topTracks.trackList = top.items.map((track: any) => {
+                state.topTracks.trackList.short_term = shortTerm.items.map((track: any) => {
+                    return {
+                        id: track.id,
+                        name: track.name,
+                        popularity: track.popularity,
+                        url: track.external_urls.spotify,
+                        artists: track.artists.map((artist: any) => ({ id: artist.id, name: artist.name, url: artist.external_urls.spotify })),
+                        imageUrl: track.album.images[0].url
+                    }
+                });
+
+                state.topTracks.trackList.medium_term = mediumTerm.items.map((track: any) => {
+                    return {
+                        id: track.id,
+                        name: track.name,
+                        popularity: track.popularity,
+                        url: track.external_urls.spotify,
+                        artists: track.artists.map((artist: any) => ({ id: artist.id, name: artist.name, url: artist.external_urls.spotify })),
+                        imageUrl: track.album.images[0].url
+                    }
+                });
+
+                state.topTracks.trackList.long_term = longTerm.items.map((track: any) => {
                     totalPop += track.popularity;
                     return {
                         id: track.id,
@@ -94,12 +127,14 @@ export const spotifySlice = createSlice({
                         imageUrl: track.album.images[0].url
                     }
                 });
+
                 state.topTracks.totalPopularity = (totalPop / 20).toFixed(1);
 
                 //set track loading status 
                 state.topTracks.loading = false;
             } else if (action.payload.type === "artists") {
-                state.topArtists.artistList = top.items.map((artist: any) => (
+
+                state.topArtists.artistList.short_term = shortTerm.items.map((artist: any) => (
                     {
                         id: artist.id,
                         name: artist.name,
@@ -109,6 +144,29 @@ export const spotifySlice = createSlice({
                         imageUrl: artist.images[0].url
                     }
                 ));
+
+                state.topArtists.artistList.medium_term = mediumTerm.items.map((artist: any) => (
+                    {
+                        id: artist.id,
+                        name: artist.name,
+                        popularity: artist.popularity,
+                        url: artist.external_urls.spotify,
+                        followers: artist.followers.total,
+                        imageUrl: artist.images[0].url
+                    }
+                ));
+
+                state.topArtists.artistList.long_term = longTerm.items.map((artist: any) => (
+                    {
+                        id: artist.id,
+                        name: artist.name,
+                        popularity: artist.popularity,
+                        url: artist.external_urls.spotify,
+                        followers: artist.followers.total,
+                        imageUrl: artist.images[0].url
+                    }
+                ));
+
                 //set artist loading status 
                 state.topArtists.loading = false;
             }

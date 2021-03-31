@@ -14,6 +14,26 @@
       color: white;
       font-size: 24px;
     }
+    .actionButtons {
+      width: 100%;
+      margin: 15px 0px 0px 0px;
+      button {
+        width: 33%;
+        padding-bottom: 5px;
+        background: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        color: rgba(white, 0.6);
+        font-family: $font-body;
+        &:hover {
+          color: $green;
+        }
+        &.active {
+          border-bottom: solid 1px $green !important;
+        }
+      }
+    }
   }
   .content {
     overflow-y: scroll;
