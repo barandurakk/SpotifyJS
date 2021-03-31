@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./RefreshButton.module.scss";
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import { login } from "../../redux/asyncActions/authActions";
-import { getCurrentTrack } from "../../redux/asyncActions/spotifyActions";
+import { getCurrentTrack, getRecentTracks, getUsersPlaylist } from "../../redux/asyncActions/spotifyActions";
 import { getLocalToken } from "../../util/getLocalToken";
 
 //global styles 
@@ -24,10 +24,24 @@ const RefreshButton: React.FC<propType> = ({ location }: propType) => {
     dispatch(getCurrentTrack());
   }
 
+  const refreshRecent = () => {
+    dispatch(getRecentTracks());
+  }
+
+  const refreshPlaylists = () => {
+    dispatch(getUsersPlaylist())
+  }
+
   return (
     <div className={styles.wrapper}>
       <button
-        onClick={() => { location === "profile" ? refreshProfile() : location === "player" ? refreshPlayer() : console.log("none") }}
+        onClick={() => {
+          location === "profile" ? refreshProfile() :
+            location === "player" ? refreshPlayer() :
+              location === "recentTracks" ? refreshRecent() :
+                location === "playlists" ? refreshPlaylists() :
+                  console.log("none")
+        }}
       ><i className="fas fa-sync-alt"></i></button>
     </div>
   )

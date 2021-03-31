@@ -49,6 +49,7 @@ const Landing: React.FC = (props: any) => {
                   Spotify<span>JS</span>
                 </h1>
                 <span className={styles.description}>You can view your account analysis</span>
+                <span className={styles.info}>Spotify JS will not keep any private information about your spotify profile.</span>
                 {authError && <span className={styles.error}>{authError}</span>}
                 <SpotifyAuth
                   redirectUri="http://localhost:3000/"

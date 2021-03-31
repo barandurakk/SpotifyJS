@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { getUsersPlaylist } from "../../redux/asyncActions/spotifyActions";
+import ScaleLoader from "react-spinners/ScaleLoader";
+
+import RefreshButton from "../RefreshButton/RefreshButton";
 
 import s from "./PlaylistList.module.scss";
 
@@ -17,12 +20,15 @@ const PlaylistList: React.FC = () => {
 
     return (
         <div className={s.container}>
+            <div style={{ float: "right", margin: "10px 5px 0px 0px" }}><RefreshButton location="playlists" /></div>
             <div className={s.headerWrapper}>
                 <h3>Playlists</h3>
             </div>
             <div className={s.content}>
                 {playlistState.loading ? (
-                    <div>Loading...</div>
+                    <div style={{ display: "flex", height: "100%", justifyContent: "center", alignItems: "center" }}>
+                        <ScaleLoader color="#1db954" loading={true} height={60} css="display: block;" />
+                    </div>
                 ) : (
                     playlists.map(playlist => {
                         return (

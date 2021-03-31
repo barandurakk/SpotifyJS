@@ -42,7 +42,16 @@
       font-family: $font-body;
       font-weight: 400;
       letter-spacing: 1px;
-      font-size: 20px;
+      font-size: 18px;
+      text-align: center;
+    }
+    .info {
+      color: $green;
+      font-family: $font-body;
+      font-weight: 400;
+      letter-spacing: 1px;
+      font-size: 14px;
+      text-align: center;
     }
     .error {
       text-align: center;

@@ -83,8 +83,10 @@ export const spotifySlice = createSlice({
         //get top tracks
         [getTopDetails.pending.toString()]: (state: any) => {
             state.topTracks.loading = true;
+            state.topArtists.loading = true;
         },
         [getTopDetails.fulfilled.toString()]: (state: any, action) => {
+
             let top = action.payload.top;
             let shortTerm = top.short;
             let mediumTerm = top.medium;
@@ -130,8 +132,7 @@ export const spotifySlice = createSlice({
 
                 state.topTracks.totalPopularity = (totalPop / 20).toFixed(1);
 
-                //set track loading status 
-                state.topTracks.loading = false;
+
             } else if (action.payload.type === "artists") {
 
                 state.topArtists.artistList.short_term = shortTerm.items.map((artist: any) => (
@@ -167,9 +168,11 @@ export const spotifySlice = createSlice({
                     }
                 ));
 
-                //set artist loading status 
-                state.topArtists.loading = false;
+
             }
+            //set loading status 
+            state.topArtists.loading = false;
+            state.topTracks.loading = false;
         },
         [getTopDetails.rejected.toString()]: (state: any, action) => {
             console.log("err");

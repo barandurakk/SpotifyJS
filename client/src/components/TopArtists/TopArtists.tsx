@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { getTopDetails } from "../../redux/asyncActions/spotifyActions";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 import s from "./TopArtists.module.scss";
 
@@ -38,7 +39,9 @@ const TopArtist: React.FC = () => {
             </div>
             <div className={s.content}>
                 {topArtists.loading ? (
-                    <div>Loading...</div>
+                    <div style={{ display: "flex", height: "100%", justifyContent: "center", alignItems: "center" }}>
+                        <ScaleLoader color="#1db954" loading={true} height={60} css="display: block;" />
+                    </div>
                 ) : (
                     term.map(artist => {
                         return (

@@ -5,6 +5,8 @@ import { getRecentTracks } from "../../redux/asyncActions/spotifyActions";
 import s from "./RecentTracks.module.scss";
 
 import ProgressBar from "../ProgressBar/ProgressBar";
+import RefreshButton from "../RefreshButton/RefreshButton";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 
 const RecentTracks: React.FC = () => {
@@ -19,12 +21,16 @@ const RecentTracks: React.FC = () => {
     }, [])
     return (
         <div className={s.container}>
+            <div style={{ float: "right" }}><RefreshButton location="recentTracks" /></div>
+
             <div className={s.headerWrapper}>
                 <h3>Recently Played</h3>
             </div>
             <div className={s.content}>
                 {recentTracks.loading ? (
-                    <div>Loading...</div>
+                    <div style={{ display: "flex", height: "100%", justifyContent: "center", alignItems: "center" }}>
+                        <ScaleLoader color="#1db954" loading={true} height={60} css="display: block;" />
+                    </div>
                 ) : (
                     tracks.map(track => {
                         return (
