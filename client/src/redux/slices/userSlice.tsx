@@ -23,7 +23,7 @@ export const userSlice = createSlice({
       state.user = {
         id: action.payload.id,
         displayName: action.payload.display_name,
-        imageUrl: action.payload.imageUrl,
+        imageUrl: action.payload.profileImg,
         followers: action.payload.followers.total,
         profileLink: action.payload.external_urls.spotify,
         coverUrl: action.payload.coverUrl,

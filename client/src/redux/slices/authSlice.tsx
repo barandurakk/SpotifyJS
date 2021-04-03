@@ -29,6 +29,7 @@ export const authSlice = createSlice({
       state.authError = null;
     },
     [login.rejected.toString()]: (state: any, action) => {
+      console.log(action.payload);
       state.loading = false;
       state.authError = action.payload.error;
       state.isAuthenticated = false;

@@ -12,6 +12,7 @@ module.exports = (app) => {
     axios
       .get("https://api.spotify.com/v1/me/player/currently-playing", setHeader(token))
       .then(async (currentTrack) => {
+        console.log(currentTrack.data);
         return res.status(200).send({ currentTrack: currentTrack.data });
       })
       .catch((err) => {
@@ -65,11 +66,9 @@ module.exports = (app) => {
     let config = setHeader(token);
     //Adjust time param to short
     config = { ...config, params: { time_range: "short_term" } };
-    console.log("Config short:", config);
     axios
       .get(`https://api.spotify.com/v1/me/top/${type}`, config)
       .then(async (resShort) => {
-        console.log("ShorTermRes: ", resShort.data);
         //Adjust time param to medium
         config = { ...config, params: { time_range: "medium_term" } };
         axios

@@ -7,6 +7,7 @@ const cors = require("cors");
 
 //models
 require("./models/Users");
+require("./models/FriendRequest");
 /* -- */
 
 //database connect

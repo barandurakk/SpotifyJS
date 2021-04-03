@@ -14,32 +14,44 @@ module.exports = (app) => {
           let response;
           try {
             const user = await User.findOne({ spotifyId: details.data.id });
+            console.log("User ID: ", details.data.id);
             //If there is no user create one and prepare a response.
             if (!user) {
               const newUser = new User({
                 spotifyId: details.data.id,
                 coverUrl: userImage,
                 aboutText: "Welcome to my Spotify profile!",
+                display_name: details.data.display_name,
+                profileImg: userImage,
               });
-              newUser.save();
+              await newUser.save();
               response = {
                 ...newUser._doc,
-                display_name: details.data.display_name,
                 external_urls: details.data.external_urls,
                 followers: details.data.followers,
-                imageUrl: userImage,
               };
               return res.status(200).send(response);
               //if there is user, dont update user because there is no overriding information
             } else {
-              response = {
-                ...user._doc,
-                display_name: details.data.display_name,
-                external_urls: details.data.external_urls,
-                followers: details.data.followers,
-                imageUrl: userImage,
-              };
-              return res.status(200).send(response);
+              try {
+                //Update user with new info
+                const user = await User.findOneAndUpdate(
+                  { spotifyId: details.data.id },
+                  {
+                    imageUrl: userImage,
+                  },
+                  { new: true }
+                );
+                response = {
+                  ...user._doc,
+                  external_urls: details.data.external_urls,
+                  followers: details.data.followers,
+                };
+                console.log("auth response : ", response);
+                return res.status(200).send(response);
+              } catch (err) {
+                return res.status(500).send({ error: "Something wrong with local database!" });
+              }
             }
           } catch (err) {
             console.error(err);
@@ -47,9 +59,12 @@ module.exports = (app) => {
           }
         })
         .catch((err) => {
-          if (err.response.status === 401)
+          if (err.response && err.response.status === 401) {
             return res.status(401).send({ error: "Session Timeout, Please Login Again" });
-          return res.status(500).send({ error: "Something is wrong!" });
+          } else {
+            console.log("err", err);
+            return res.status(500).send({ error: "Something is wrong!" });
+          }
         });
     } else {
       return res.status(403).send({ error: "Token cannot found!" });
