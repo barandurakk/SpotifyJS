@@ -24,6 +24,7 @@ console.log("selam server!");
 require("./routes/auth")(app);
 require("./routes/user")(app);
 require("./routes/spotifyDetails")(app);
+require("./routes/friendRequest")(app);
 
 //bu logic temel olarak productionda çalışan express serverimizin cevap olarak client serverimizi (react app) tanıması ve cevap gönderebilmesi için.
 if (process.env.NODE_ENV === "production") {
