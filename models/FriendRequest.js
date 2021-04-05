@@ -4,13 +4,15 @@ const { Schema } = mongoose;
 const FriendRequestSchema = new Schema({
   requester: {
     display_name: { type: String },
-    id: { type: mongoose.Schema.ObjectId },
+    id: { type: String },
     profileImg: { type: String },
+    spotifyId: { type: String },
   },
   recipient: {
     display_name: { type: String },
-    id: { type: mongoose.Schema.ObjectId },
+    id: { type: String },
     profileImg: { type: String },
+    spotifyId: { type: String },
   },
   dateCreated: { type: Date, required: true, default: new Date().toISOString() },
 });

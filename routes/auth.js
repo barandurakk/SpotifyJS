@@ -14,7 +14,6 @@ module.exports = (app) => {
           let response;
           try {
             const user = await User.findOne({ spotifyId: details.data.id });
-            console.log("User ID: ", details.data.id);
             //If there is no user create one and prepare a response.
             if (!user) {
               const newUser = new User({
@@ -47,7 +46,6 @@ module.exports = (app) => {
                   external_urls: details.data.external_urls,
                   followers: details.data.followers,
                 };
-                console.log("auth response : ", response);
                 return res.status(200).send(response);
               } catch (err) {
                 return res.status(500).send({ error: "Something wrong with local database!" });

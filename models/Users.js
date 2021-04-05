@@ -9,7 +9,7 @@ const userSchema = new Schema({
   display_name: { type: String },
   friends: [
     {
-      id: { type: mongoose.Schema.ObjectId },
+      id: { type: String },
       spotifyId: { type: String },
       display_name: { type: String },
       profileImg: { type: String },
