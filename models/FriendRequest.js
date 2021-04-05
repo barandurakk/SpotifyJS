@@ -12,6 +12,7 @@ const FriendRequestSchema = new Schema({
     id: { type: mongoose.Schema.ObjectId },
     profileImg: { type: String },
   },
+  dateCreated: { type: Date, required: true, default: new Date().toISOString() },
 });
 
 mongoose.model("friendRequest", FriendRequestSchema);

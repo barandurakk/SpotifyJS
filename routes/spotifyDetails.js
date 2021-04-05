@@ -1,18 +1,13 @@
 const axios = require("axios");
 const setHeader = require("../util/setAuthHeader.js");
+const verifyUser = require("../middlewares/verifyUser");
 
 module.exports = (app) => {
   //get users current track
-  app.get("/api/getCurrentTrack", async (req, res) => {
-    const token = req.headers.authorization;
-
-    if (!token) {
-      return res.status(401).send({ error: "Session timeout, please login again!" });
-    }
+  app.get("/api/getCurrentTrack", verifyUser, async (req, res) => {
     axios
-      .get("https://api.spotify.com/v1/me/player/currently-playing", setHeader(token))
+      .get("https://api.spotify.com/v1/me/player/currently-playing", setHeader(req.token))
       .then(async (currentTrack) => {
-        console.log(currentTrack.data);
         return res.status(200).send({ currentTrack: currentTrack.data });
       })
       .catch((err) => {
@@ -21,15 +16,9 @@ module.exports = (app) => {
   });
 
   //Play and stop user's track
-  app.get("/api/playTrack", async (req, res) => {
-    const token = req.headers.authorization;
-
-    if (!token) {
-      return res.status(401).send({ error: "Session timeout, please login again!" });
-    }
-
+  app.get("/api/playTrack", verifyUser, async (req, res) => {
     axios
-      .put("https://api.spotify.com/v1/me/player/play", null, setHeader(token))
+      .put("https://api.spotify.com/v1/me/player/play", null, setHeader(req.token))
       .then(async () => {
         return res.status(200);
       })
@@ -38,14 +27,9 @@ module.exports = (app) => {
       });
   });
 
-  app.get("/api/stopTrack", async (req, res) => {
-    const token = req.headers.authorization;
-    if (!token) {
-      return res.status(401).send({ error: "Session timeout, please login again!" });
-    }
-
+  app.get("/api/stopTrack", verifyUser, async (req, res) => {
     axios
-      .put("https://api.spotify.com/v1/me/player/pause", null, setHeader(token))
+      .put("https://api.spotify.com/v1/me/player/pause", null, setHeader(req.token))
       .then(async () => {
         return res.status(200);
       })
@@ -55,15 +39,10 @@ module.exports = (app) => {
   });
 
   //get users top track and artists
-  app.post("/api/getUsersTop", async (req, res) => {
-    const token = req.headers.authorization;
+  app.post("/api/getUsersTop", verifyUser, async (req, res) => {
     const type = req.body.type;
 
-    if (!token) {
-      return res.status(401).send({ error: "Session timeout, please login again!" });
-    }
-
-    let config = setHeader(token);
+    let config = setHeader(req.token);
     //Adjust time param to short
     config = { ...config, params: { time_range: "short_term" } };
     axios
@@ -98,15 +77,9 @@ module.exports = (app) => {
   });
 
   //get users top track and artists
-  app.get("/api/getRecentTracks", async (req, res) => {
-    const token = req.headers.authorization;
-
-    if (!token) {
-      return res.status(401).send({ error: "Session timeout, please login again!" });
-    }
-
+  app.get("/api/getRecentTracks", verifyUser, async (req, res) => {
     axios
-      .get(`https://api.spotify.com/v1/me/player/recently-played`, setHeader(token))
+      .get(`https://api.spotify.com/v1/me/player/recently-played`, setHeader(req.token))
       .then(async (response) => {
         return res.status(200).send(response.data);
       })
@@ -116,15 +89,9 @@ module.exports = (app) => {
   });
 
   //get users owned playlists
-  app.get("/api/getUserPlaylists", async (req, res) => {
-    const token = req.headers.authorization;
-
-    if (!token) {
-      return res.status(401).send({ error: "Session timeout, please login again!" });
-    }
-
+  app.get("/api/getUserPlaylists", verifyUser, async (req, res) => {
     axios
-      .get(`https://api.spotify.com/v1/me/playlists`, setHeader(token))
+      .get(`https://api.spotify.com/v1/me/playlists`, setHeader(req.token))
       .then(async (response) => {
         return res.status(200).send(response.data);
       })
