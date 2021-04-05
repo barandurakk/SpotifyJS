@@ -124,4 +124,25 @@ module.exports = (app) => {
       return res.status(500).send({ error: "Something happened while accepting request!" });
     }
   });
+
+  //decline a user request and add friend
+  app.get("/api/request/decline/:id", verifyUser, async (req, res) => {
+    const requestId = req.params.id;
+
+    if (!requestId) return res.status(400).send({ error: "You have to specify a request id!" });
+
+    try {
+      const request = await FriendRequest.findOneAndDelete({
+        _id: requestId,
+        "recipient.id": req.user._id,
+      });
+      if (!request) {
+        return res.status(404).send({ error: "We couldn't find any request with that id!" });
+      }
+
+      return res.status(200).send({ message: "Request Declined Succesfully!" });
+    } catch (err) {
+      return res.status(500).send({ error: "Something wrong with local database!" });
+    }
+  });
 };
