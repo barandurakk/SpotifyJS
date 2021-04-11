@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-  spotifyId: { type: String, required: true },
+  spotifyId: { type: String, required: true, index: true },
   coverUrl: { type: String },
   aboutText: { type: String, default: "Welcome to my Spotify profile!" },
   profileImg: { type: String, required: true },
-  display_name: { type: String },
+  display_name: { type: String, required: true, index: true },
   friends: [
     {
       id: { type: String },
@@ -17,4 +17,5 @@ const userSchema = new Schema({
   ],
 });
 
+userSchema.index({ display_name: "text", spotifyId: "text" });
 mongoose.model("users", userSchema);

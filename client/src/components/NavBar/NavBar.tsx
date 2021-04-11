@@ -23,6 +23,7 @@ const NavBar: React.FC = () => {
         <div className={styles.brandingWrapper}>
           <h1>SpotifyJS</h1>
         </div>
+
         <div className={styles.userActions}>
           <RefreshButton location={"profile"} />
           <span className={styles.userName}>
