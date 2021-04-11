@@ -7,6 +7,7 @@ module.exports = (app) => {
   //send a friend request
   app.post("/api/request/send/:id", verifyUser, async (req, res) => {
     const recipientId = req.params.id;
+    console.log("send!");
 
     if (!recipientId) {
       return res.status(400).send({ error: "You have to indicate a recipient and requester id!" });
@@ -57,7 +58,7 @@ module.exports = (app) => {
 
       await newRequest.save();
 
-      return res.send({ message: "Request sended successfully!" });
+      return res.status(200).send({ message: "Request sended successfully!" });
     } catch (err) {
       return res.status(500).send({ error: "Something is wrong!" });
     }
@@ -70,7 +71,7 @@ module.exports = (app) => {
     return res.status(200).send(friendRequests);
   });
 
-  //accept a user request and add friend
+  //accept a friend request and add friend
   app.get("/api/request/accept/:id", verifyUser, async (req, res) => {
     const requestId = req.params.id;
 
@@ -125,7 +126,7 @@ module.exports = (app) => {
     }
   });
 
-  //decline a user request and add friend
+  //decline a friend request
   app.get("/api/request/decline/:id", verifyUser, async (req, res) => {
     const requestId = req.params.id;
 
@@ -141,6 +142,47 @@ module.exports = (app) => {
       }
 
       return res.status(200).send({ message: "Request Declined Succesfully!" });
+    } catch (err) {
+      return res.status(500).send({ error: "Something wrong with local database!" });
+    }
+  });
+
+  //delete a friend
+  app.get("/api/request/delete/:id", verifyUser, async (req, res) => {
+    const friendId = req.params.id;
+
+    if (!friendId) return res.status(400).send({ error: "You have to specify a user id!" });
+
+    User.findByIdAndUpdate(
+      { _id: req.user._id },
+      {
+        $pull: { friends: { id: friendId } },
+      }
+    )
+      .then(() => {
+        User.findByIdAndUpdate(
+          { _id: friendId },
+          {
+            $pull: { friends: { id: req.user._id } },
+          }
+        )
+          .then(() => {
+            res.status(200).send({ message: "Friend deleted succesfully!" });
+          })
+          .catch((err) => {
+            return res.status(500).send({ error: "Something wrong with local database!" });
+          });
+      })
+      .catch((err) => {
+        return res.status(500).send({ error: "Something wrong with local database!" });
+      });
+  });
+
+  app.get("/api/getFriends", verifyUser, async (req, res) => {
+    try {
+      const user = await User.findOne({ _id: req.user._id });
+      const friends = user.friends;
+      res.status(200).send(friends);
     } catch (err) {
       return res.status(500).send({ error: "Something wrong with local database!" });
     }

@@ -24,7 +24,7 @@ module.exports = (req, res, next) => {
       }
     })
     .catch((err) => {
-      if (err.response.status === 401) return res.status(401).send({ error: "Invalid Token" });
+      if (err.response?.status === 401) return res.status(401).send({ error: "Invalid Token" });
       return res.status(500).send({ error: "Can't connect to spotify servers!" });
     });
 };
