@@ -11,7 +11,7 @@
   flex-direction: row;
   justify-content: space-between;
   padding: 0px 50px;
-  z-index: 15;
+  z-index: 200;
   .brandingWrapper {
     display: flex;
     flex-direction: row;
@@ -26,6 +26,9 @@
   }
   .userActions {
     @include flex-row-centered;
+    .searchWrapper {
+      margin-right: 10px;
+    }
     .userName {
       color: white;
       font-weight: 600;

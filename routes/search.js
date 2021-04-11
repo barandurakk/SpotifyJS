@@ -19,7 +19,7 @@ module.exports = (app) => {
     )
       .then((result) => {
         if (result.length < 1) {
-          return res.send("There is no match!");
+          return res.status(404).send("There is no match!");
         } else {
           return res.send(result);
         }

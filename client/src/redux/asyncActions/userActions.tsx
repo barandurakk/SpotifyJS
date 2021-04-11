@@ -12,3 +12,16 @@ export const setAboutText = createAsyncThunk(
         }
     }
 )
+
+export const searchUser = createAsyncThunk(
+    "SEARCH_USER",
+    async (keyword: string, thunkAPI) => {
+        const encodedKeyword = encodeURI(keyword);
+        try {
+            const response = await axios.get(`api/search/user/${encodedKeyword}`)
+            return response.data;
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err.response.data);
+        }
+    }
+)

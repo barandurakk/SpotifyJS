@@ -4,6 +4,8 @@ import RefreshButton from "../RefreshButton/RefreshButton";
 import styles from "./NavBar.module.scss";
 import { logout } from "../../redux/asyncActions/authActions";
 
+import Search from "../Search/Search";
+
 //global styles 
 import "../../scss/_global.scss";
 
@@ -25,6 +27,9 @@ const NavBar: React.FC = () => {
         </div>
 
         <div className={styles.userActions}>
+          <div className={styles.searchWrapper}>
+            <Search />
+          </div>
           <RefreshButton location={"profile"} />
           <span className={styles.userName}>
             {user.displayName}

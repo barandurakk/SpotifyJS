@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { setAboutText } from "../asyncActions/userActions";
+import Search from "../../components/Search/Search";
+import { setAboutText, searchUser } from "../asyncActions/userActions";
 
 export const userSlice = createSlice({
   name: "userSlice",
@@ -14,6 +15,11 @@ export const userSlice = createSlice({
       profileLink: "",
       coverUrl: "",
       aboutText: "",
+    },
+    search: {
+      result: [],
+      loading: false,
+      error: ""
     },
     aboutTextLoading: false
   },
@@ -40,6 +46,9 @@ export const userSlice = createSlice({
         coverUrl: "",
         aboutText: "",
       };
+    },
+    unsetResult: (state: any) => {
+      state.search.result = [];
     }
   },
 
@@ -55,7 +64,19 @@ export const userSlice = createSlice({
     [setAboutText.rejected.toString()]: (state: any) => {
       state.aboutTextLoading = false;
     },
+
+    //search User
+    [searchUser.pending.toString()]: (state: any) => {
+      state.search.loading = true;
+    },
+    [searchUser.fulfilled.toString()]: (state: any, action) => {
+      state.search.result = action.payload;
+      state.search.loading = false;
+    },
+    [searchUser.rejected.toString()]: (state: any) => {
+      state.search.loading = false;
+    },
   }
 })
 
-export const { setUser, unsetUser } = userSlice.actions;
+export const { setUser, unsetUser, unsetResult } = userSlice.actions;
