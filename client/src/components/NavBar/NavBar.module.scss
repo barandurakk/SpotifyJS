@@ -27,7 +27,11 @@
   .userActions {
     @include flex-row-centered;
     .searchWrapper {
+      margin-right: 20px;
+    }
+    .notificationWrapper {
       margin-right: 10px;
+      margin-left: 10px;
     }
     .userName {
       color: white;
@@ -40,7 +44,7 @@
       color: white;
       font-size: 14px;
       font-weight: 500;
-      margin-left: 50px;
+      margin-left: 20px;
       &:hover {
         border-color: $green;
       }

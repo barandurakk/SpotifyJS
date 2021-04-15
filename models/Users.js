@@ -5,7 +5,7 @@ const userSchema = new Schema({
   spotifyId: { type: String, required: true, index: true },
   coverUrl: { type: String },
   aboutText: { type: String, default: "Welcome to my Spotify profile!" },
-  profileImg: { type: String, required: true },
+  profileImg: { type: String },
   display_name: { type: String, required: true, index: true },
   friends: [
     {

@@ -5,6 +5,7 @@ import styles from "./NavBar.module.scss";
 import { logout } from "../../redux/asyncActions/authActions";
 
 import Search from "../Search/Search";
+import Notification from "../Notification/Notification";
 
 //global styles 
 import "../../scss/_global.scss";
@@ -34,6 +35,9 @@ const NavBar: React.FC = () => {
           <span className={styles.userName}>
             {user.displayName}
           </span>
+          <div className={styles.notificationWrapper}>
+            <Notification />
+          </div>
           <button
             className={styles.logoutButton}
             onClick={() => handleLogout()}

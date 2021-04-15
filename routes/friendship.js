@@ -65,7 +65,7 @@ module.exports = (app) => {
   });
 
   //get friend request that you are recipient
-  app.post("/api/request/get", verifyUser, async (req, res) => {
+  app.get("/api/request/get", verifyUser, async (req, res) => {
     const friendRequests = await FriendRequest.find({ "recipient.id": req.user.id });
 
     return res.status(200).send(friendRequests);

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Search from "../../components/Search/Search";
-import { setAboutText, searchUser } from "../asyncActions/userActions";
+import { setAboutText, searchUser, getFriendRequests } from "../asyncActions/userActions";
 
 export const userSlice = createSlice({
   name: "userSlice",
@@ -15,6 +15,12 @@ export const userSlice = createSlice({
       profileLink: "",
       coverUrl: "",
       aboutText: "",
+      friends: []
+    },
+    requests: {
+      loading: false,
+      list: [],
+      error: ""
     },
     search: {
       result: [],
@@ -75,6 +81,18 @@ export const userSlice = createSlice({
     },
     [searchUser.rejected.toString()]: (state: any) => {
       state.search.loading = false;
+    },
+
+    //getRequests
+    [getFriendRequests.pending.toString()]: (state: any) => {
+      state.requests.loading = true;
+    },
+    [getFriendRequests.fulfilled.toString()]: (state: any, action) => {
+      state.requests.list = action.payload;
+      state.requests.loading = false;
+    },
+    [getFriendRequests.rejected.toString()]: (state: any) => {
+      state.requests.loading = false;
     },
   }
 })

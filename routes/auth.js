@@ -10,7 +10,7 @@ module.exports = (app) => {
       axios
         .get("https://api.spotify.com/v1/me", setHeader(token))
         .then(async (details) => {
-          const userImage = details.data.images[0].url;
+          const userImage = details.data.images[0]?.url;
           let response;
           try {
             const user = await User.findOne({ spotifyId: details.data.id });
