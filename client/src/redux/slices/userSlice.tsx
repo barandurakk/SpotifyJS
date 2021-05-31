@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Search from "../../components/Search/Search";
-import { setAboutText, searchUser, getFriendRequests } from "../asyncActions/userActions";
+import { setAboutText, getFriendRequests, getFriends, getCurrentUser } from "../asyncActions/userActions";
 
 export const userSlice = createSlice({
   name: "userSlice",
@@ -22,9 +21,9 @@ export const userSlice = createSlice({
       list: [],
       error: ""
     },
-    search: {
-      result: [],
+    friends: {
       loading: false,
+      list: [],
       error: ""
     },
     aboutTextLoading: false
@@ -33,11 +32,11 @@ export const userSlice = createSlice({
   reducers: {
     setUser: (state: any, action) => {
       state.user = {
-        id: action.payload.id,
+        id: action.payload._id,
         displayName: action.payload.display_name,
         imageUrl: action.payload.profileImg,
-        followers: action.payload.followers.total,
-        profileLink: action.payload.external_urls.spotify,
+        followers: action.payload.followers,
+        profileLink: action.payload.profileLink,
         coverUrl: action.payload.coverUrl,
         aboutText: action.payload.aboutText
       };
@@ -52,13 +51,24 @@ export const userSlice = createSlice({
         coverUrl: "",
         aboutText: "",
       };
-    },
-    unsetResult: (state: any) => {
-      state.search.result = [];
     }
   },
 
   extraReducers: {
+    //set user
+    [getCurrentUser.fulfilled.toString()]: (state: any, action) => {
+      state.user = {
+        id: action.payload._id,
+        displayName: action.payload.display_name,
+        imageUrl: action.payload.profileImg,
+        followers: action.payload.followers,
+        profileLink: action.payload.profileLink,
+        coverUrl: action.payload.coverUrl,
+        aboutText: action.payload.aboutText
+      };
+
+    },
+
     //setaboutText
     [setAboutText.pending.toString()]: (state: any) => {
       state.aboutTextLoading = true;
@@ -69,18 +79,6 @@ export const userSlice = createSlice({
     },
     [setAboutText.rejected.toString()]: (state: any) => {
       state.aboutTextLoading = false;
-    },
-
-    //search User
-    [searchUser.pending.toString()]: (state: any) => {
-      state.search.loading = true;
-    },
-    [searchUser.fulfilled.toString()]: (state: any, action) => {
-      state.search.result = action.payload;
-      state.search.loading = false;
-    },
-    [searchUser.rejected.toString()]: (state: any) => {
-      state.search.loading = false;
     },
 
     //getRequests
@@ -94,7 +92,19 @@ export const userSlice = createSlice({
     [getFriendRequests.rejected.toString()]: (state: any) => {
       state.requests.loading = false;
     },
+
+    //getFriends
+    [getFriends.pending.toString()]: (state: any) => {
+      state.friends.loading = true;
+    },
+    [getFriends.fulfilled.toString()]: (state: any, action) => {
+      state.friends.list = action.payload;
+      state.friends.loading = false;
+    },
+    [getFriends.rejected.toString()]: (state: any) => {
+      state.friends.loading = false;
+    },
   }
 })
 
-export const { setUser, unsetUser, unsetResult } = userSlice.actions;
+export const { setUser, unsetUser } = userSlice.actions;

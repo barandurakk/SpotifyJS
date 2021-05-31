@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./RefreshButton.module.scss";
 import { useAppDispatch } from "../../hooks/reduxHooks";
-import { login } from "../../redux/asyncActions/authActions";
 import { getCurrentTrack, getRecentTracks, getUsersPlaylist } from "../../redux/asyncActions/spotifyActions";
+import { getCurrentUser } from "../../redux/asyncActions/userActions";
 import { getLocalToken } from "../../util/getLocalToken";
 
 //global styles 
@@ -17,7 +17,7 @@ const RefreshButton: React.FC<propType> = ({ location }: propType) => {
 
   const refreshProfile = () => {
     const token = getLocalToken();
-    dispatch(login(token))
+    dispatch(getCurrentUser(token))
   }
 
   const refreshPlayer = () => {

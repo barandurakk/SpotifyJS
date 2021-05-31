@@ -10,6 +10,7 @@ module.exports = (app) => {
       axios
         .get("https://api.spotify.com/v1/me", setHeader(token))
         .then(async (details) => {
+          console.log("DETAILS: ", details);
           const userImage = details.data.images[0]?.url;
           let response;
           try {
@@ -22,12 +23,12 @@ module.exports = (app) => {
                 aboutText: "Welcome to my Spotify profile!",
                 display_name: details.data.display_name,
                 profileImg: userImage,
+                profileLink: details.data.external_urls.spotify,
+                followers: details.data.followers.total,
               });
               await newUser.save();
               response = {
                 ...newUser._doc,
-                external_urls: details.data.external_urls,
-                followers: details.data.followers,
               };
               return res.status(200).send(response);
               //if there is user, dont update user because there is no overriding information
@@ -43,8 +44,6 @@ module.exports = (app) => {
                 );
                 response = {
                   ...user._doc,
-                  external_urls: details.data.external_urls,
-                  followers: details.data.followers,
                 };
                 return res.status(200).send(response);
               } catch (err) {
@@ -60,7 +59,7 @@ module.exports = (app) => {
           if (err.response && err.response.status === 401) {
             return res.status(401).send({ error: "Session Timeout, Please Login Again" });
           } else {
-            console.log("err", err);
+            console.error(err);
             return res.status(500).send({ error: "Something is wrong!" });
           }
         });
@@ -75,7 +74,6 @@ module.exports = (app) => {
       axios
         .get("https://api.spotify.com/v1/me/top/tracks", setHeader(token))
         .then(async (details) => {
-          console.log(details.data);
           return res.status(200).send(details.data);
         })
         .catch((err) => {

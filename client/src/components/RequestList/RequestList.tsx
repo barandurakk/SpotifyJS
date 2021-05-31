@@ -10,12 +10,12 @@ const RequestList: React.FC<any> = ({ requests }: any) => {
 
     const handleAccept = (id: string) => {
         dispatch(acceptRequest(id));
-        dispatch(getFriendRequests())
+        dispatch(getFriendRequests());
     }
 
     const handleReject = (id: string) => {
         dispatch(rejectRequest(id));
-        dispatch(getFriendRequests())
+        dispatch(getFriendRequests());
     }
 
     return (

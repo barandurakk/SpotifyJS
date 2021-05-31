@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { login, logout } from "../asyncActions/authActions";
+import { logout } from "../asyncActions/authActions";
 import axios from "axios";
 import { getLocalToken } from "../../util/getLocalToken";
 
@@ -14,26 +14,28 @@ export const authSlice = createSlice({
   },
 
   reducers: {
-
+    setAuthenticated: (state: any) => {
+      state.isAuthenticated = true;
+    },
   },
 
   extraReducers: {
     //login
-    [login.pending.toString()]: (state: any) => {
-      state.loading = true;
-    },
-    [login.fulfilled.toString()]: (state: any) => {
-      axios.defaults.headers.common['Authorization'] = getLocalToken();
-      state.isAuthenticated = true
-      state.loading = false;
-      state.authError = null;
-    },
-    [login.rejected.toString()]: (state: any, action) => {
-      console.log(action.payload);
-      state.loading = false;
-      state.authError = action.payload.error;
-      state.isAuthenticated = false;
-    },
+    // [login.pending.toString()]: (state: any) => {
+    //   state.loading = true;
+
+    // },
+    // [login.fulfilled.toString()]: (state: any) => {
+    //   state.isAuthenticated = true
+    //   state.loading = false;
+    //   state.authError = null;
+    // },
+    // [login.rejected.toString()]: (state: any, action) => {
+
+    //   state.loading = false;
+    //   state.authError = action.error.error;
+    //   state.isAuthenticated = false;
+    // },
 
     //logout
     [logout.pending.toString()]: (state: any) => {
@@ -48,4 +50,5 @@ export const authSlice = createSlice({
   }
 })
 
+export const { setAuthenticated } = authSlice.actions;
 export default authSlice;

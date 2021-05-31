@@ -32,9 +32,9 @@ const RecentTracks: React.FC = () => {
                         <ScaleLoader color="#1db954" loading={true} height={60} css="display: block;" />
                     </div>
                 ) : (
-                    tracks.map(track => {
+                    tracks.map((track, i) => {
                         return (
-                            <div className={s.listItem} key={track.id}>
+                            <div className={s.listItem} key={`${track.id}-${i}`}>
                                 <a target={"_blank"} href={track.url}><div className={s.image} style={{ backgroundImage: `url(${track.imageUrl})` }}></div></a>
                                 <div className={s.itemContent}>
                                     <div>

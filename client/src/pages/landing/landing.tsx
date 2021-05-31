@@ -1,13 +1,16 @@
 import React, { useEffect } from "react";
 import keys from "../../config/keys";
 import { SpotifyAuth, Scopes } from "react-spotify-auth";
+import { useHistory } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../hooks/reduxHooks";
+import axios from "axios"
+
 //actions
-import { login } from "../../redux/asyncActions/authActions";
+//import { login } from "../../redux/asyncActions/authActions";
+//Slice
+import { setAuthenticated } from "../../redux/slices/authSlice";
 
 import Loading from "../../util/Loading";
-
-
 
 import styles from "./landing.module.scss";
 import "../../scss/_global.scss";
@@ -16,24 +19,26 @@ import "../../scss/_global.scss";
 type tokenType = string;
 
 
-const Landing: React.FC = (props: any) => {
+const Landing: React.FC = () => {
   const dispatch = useAppDispatch();
+  const history = useHistory();
   const { loading, authError, isAuthenticated } = useAppSelector(state => state.auth);
+
 
   useEffect(() => {
     if (isAuthenticated) {
-      props.history.push("/profile");
+      history.push("/profile");
     }
-  }, [isAuthenticated])// eslint-disable-line react-hooks/exhaustive-deps
-
+  }, [isAuthenticated])
 
   const handleAuth = async (token: tokenType) => {
 
     if (token) {
-      dispatch(login(token));
-      props.history.push("/profile");
+      axios.defaults.headers.common['Authorization'] = token;
+      dispatch(setAuthenticated());
     }
   };
+
   return (
     <div className={styles.container}>
       {loading ?

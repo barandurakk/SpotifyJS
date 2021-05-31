@@ -7,7 +7,6 @@ module.exports = (app) => {
   //send a friend request
   app.post("/api/request/send/:id", verifyUser, async (req, res) => {
     const recipientId = req.params.id;
-    console.log("send!");
 
     if (!recipientId) {
       return res.status(400).send({ error: "You have to indicate a recipient and requester id!" });
@@ -182,7 +181,37 @@ module.exports = (app) => {
     try {
       const user = await User.findOne({ _id: req.user._id });
       const friends = user.friends;
-      res.status(200).send(friends);
+      return res.status(200).send(friends);
+    } catch (err) {
+      return res.status(500).send({ error: "Something wrong with local database!" });
+    }
+  });
+
+  //get a users profile
+  app.get("/api/getProfile/:userId", verifyUser, async (req, res) => {
+    const oUserId = req.params.userId;
+    const userId = req.user._id;
+
+    if (!oUserId) {
+      return res.status(400).send({ error: "You have to specify a user id!" });
+    }
+
+    try {
+      const oUser = await User.findOne({ spotifyId: oUserId }, { friends: 0 });
+      if (!oUser) return res.status(404).send({ error: "There is no user by that id!" });
+
+      const existingFriend = await User.findOne({
+        $and: [{ _id: userId }, { "friends.spotifyId": oUserId }],
+      });
+
+      if (existingFriend) {
+        //users are friend
+        //send also playlists
+        return res.status(200).send({ user: oUser, friends: true });
+      } else {
+        //users not friend
+        return res.status(200).send({ user: oUser, friends: false });
+      }
     } catch (err) {
       return res.status(500).send({ error: "Something wrong with local database!" });
     }

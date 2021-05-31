@@ -29,7 +29,7 @@ export const playCurrentTrack = createAsyncThunk(
 )
 
 export const stopCurrentTrack = createAsyncThunk(
-    "PLAY_CURRENT_TRACK",
+    "STOP_CURRENT_TRACK",
     async (_, thunkAPI) => {
         try {
             await axios.get("/api/stopTrack");

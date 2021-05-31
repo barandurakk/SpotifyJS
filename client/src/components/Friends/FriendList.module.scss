@@ -1,0 +1,112 @@
+@import "../../scss/_variables.scss";
+@import "../../scss/mixins.scss";
+
+.iconContainer {
+  position: relative;
+  .icon {
+    background: transparent;
+    border: none;
+    outline: none;
+    i {
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+      transition: 0.5s;
+      &:hover {
+        transition: 0.5s;
+        color: $green;
+      }
+    }
+  }
+}
+.backgroundBlur {
+  display: none;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba($dark, 0.5);
+  &.show {
+    display: block;
+  }
+}
+
+.drawer {
+  position: fixed;
+  right: 0px;
+  top: 0px;
+  min-height: 100vh;
+  width: 300px;
+  background-color: $dark;
+  z-index: 500;
+  transform: translateX(100%);
+  transition: 0.5s;
+  &.open {
+    transition: 0.5s;
+    transform: translateX(0);
+  }
+  .wrapper {
+    .titleWrapper {
+      width: 100%;
+      padding: 20px;
+      border-bottom: solid 1px $green;
+      span {
+        font-size: 24px;
+        color: white;
+        font-weight: 600;
+      }
+    }
+    .content {
+      height: 100vh;
+      width: 100%;
+      overflow-y: scroll;
+      overflow-x: none;
+      padding: 10px;
+      .item {
+        width: 100%;
+        padding: 10px 5px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 15px;
+        background-color: $light;
+        overflow: hidden;
+        cursor: pointer;
+        &:hover {
+          background-color: lighten($light, 1%);
+        }
+        .itemContent {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          .pictureWrapper {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: $dark;
+            background-position: center center;
+            overflow: hidden;
+          }
+          .text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-left: 15px;
+            .name {
+              color: $green;
+              font-weight: 600;
+              font-size: 16px;
+            }
+            .about {
+              color: rgba(white, 0.7);
+              font-weight: 400;
+              font-size: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

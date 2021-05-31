@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import { Link } from "react-router-dom";
 import { searchUser } from "../../redux/asyncActions/userActions";
-import { unsetResult } from "../../redux/slices/userSlice";
+import { unsetResult } from "../../redux/slices/uiSlice";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import csx from "classnames"
 
@@ -9,7 +10,7 @@ import s from "./Search.module.scss";
 
 const Search: React.FC = () => {
     const dispatch = useAppDispatch();
-    const search = useAppSelector(state => state.user.search);
+    const search = useAppSelector(state => state.ui.search);
     const [keyword, setKeyword] = useState("");
     const [showSub, setShowSub] = useState(false);
 
@@ -20,7 +21,6 @@ const Search: React.FC = () => {
     useEffect(() => {
 
         //search
-        console.log("dispatch");
         if (keyword.length > 0) {
             dispatch(searchUser(keyword));
             setShowSub(true);
@@ -30,6 +30,7 @@ const Search: React.FC = () => {
         }
 
     }, [keyword])
+
     return (
         <>
             <div className={s.container}>
@@ -54,10 +55,10 @@ const Search: React.FC = () => {
                             return (
                                 <>
                                     <div className={s.userItem} key={user.id}>
-                                        <a target={"_blank"} href={`/user/${user.spotifyId}`}><div className={s.image} style={{ backgroundImage: `url(${user.profileImg})` }}></div></a>
+                                        <Link to={`/user/${user.spotifyId}`}><div className={s.image} style={{ backgroundImage: `url(${user.profileImg})` }}></div></Link>
                                         <div className={s.itemContent}>
                                             <div>
-                                                <div className={s.name}> <a target={"_blank"} href={`/user/${user.spotifyId}`}>{user.display_name}</a></div>
+                                                <div className={s.name}> <Link to={`/user/${user.spotifyId}`}>{user.display_name}</Link></div>
                                                 <span className={s.about}>{user.aboutText.length > 30 ? user.aboutText.slice(0, 30) : user.aboutText}</span>
                                             </div>
                                         </div>

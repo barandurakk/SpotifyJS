@@ -1,5 +1,20 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { TokenType } from "../../util/getLocalToken";
 import axios from "axios";
+
+export const getCurrentUser = createAsyncThunk(
+    "GET_CURRENT_USER",
+    async (token: TokenType, thunkAPI) => {
+        try {
+            const response = await axios.post("/api/getUserDetails", { token });
+            //debugger;
+            console.log("Current User: ", response.data)
+            return response.data;
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err.response.data);
+        }
+    }
+)
 
 export const setAboutText = createAsyncThunk(
     "SET_ABOUT_TEXT",
@@ -56,6 +71,30 @@ export const rejectRequest = createAsyncThunk(
         try {
             const response = await axios.get(`/api/decline/accept/${requestId}`);
             return response.data;
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err.response.data);
+        }
+    }
+)
+
+export const getFriends = createAsyncThunk(
+    "GET_FRIENDS",
+    async (_, thunkAPI) => {
+        try {
+            const response = await axios.get("/api/getFriends");
+            return response.data;
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err.response.data);
+        }
+    }
+)
+
+export const getProfile = createAsyncThunk(
+    "GET_OPROFILE",
+    async (userId: string, thunkAPI) => {
+        try {
+            const response = await axios.get(`/api/getProfile/${userId}`)
+            return response.data
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response.data);
         }
