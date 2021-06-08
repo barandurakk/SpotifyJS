@@ -10,7 +10,6 @@ module.exports = (app) => {
       axios
         .get("https://api.spotify.com/v1/me", setHeader(token))
         .then(async (details) => {
-          console.log("DETAILS: ", details);
           const userImage = details.data.images[0]?.url;
           let response;
           try {

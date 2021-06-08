@@ -69,7 +69,7 @@ export const rejectRequest = createAsyncThunk(
     "DELETE_REQUESTS",
     async (requestId: string, thunkAPI) => {
         try {
-            const response = await axios.get(`/api/decline/accept/${requestId}`);
+            const response = await axios.get(`/api/request/decline/${requestId}`);
             return response.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response.data);
@@ -95,6 +95,18 @@ export const getProfile = createAsyncThunk(
         try {
             const response = await axios.get(`/api/getProfile/${userId}`)
             return response.data
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err.response.data);
+        }
+    }
+)
+
+export const sendRequest = createAsyncThunk(
+    "SEND_REQUEST",
+    async (friendId: string, thunkAPI) => {
+        try {
+            const response = await axios.post(`/api/request/send/${friendId}`);
+            return response.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response.data);
         }

@@ -17,6 +17,7 @@ export const uiSlice = createSlice({
             loading: false,
             user: {
                 id: "",
+                spotifyId: "",
                 displayName: "",
                 imageUrl: "",
                 followers: 0,
@@ -24,7 +25,8 @@ export const uiSlice = createSlice({
                 coverUrl: "",
                 aboutText: "",
                 friends: []
-            }
+            },
+            playlists: []
         }
     },
 
@@ -56,6 +58,7 @@ export const uiSlice = createSlice({
             let profile = action.payload.user;
             state.profile.user = {
                 id: profile._id,
+                spotifyId: profile.spotifyId,
                 displayName: profile.display_name,
                 imageUrl: profile.profileImg,
                 followers: profile.followers,
@@ -63,7 +66,9 @@ export const uiSlice = createSlice({
                 coverUrl: profile.coverUrl,
                 aboutText: profile.aboutText
             };
+            state.profile.isFriend = action.payload.friends
             state.profile.loading = false;
+            state.profile.playlists = profile.spotifyDetails.playlists;
         },
         [getProfile.rejected.toString()]: (state: any) => {
             state.profile.loading = false;

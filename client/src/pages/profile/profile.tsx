@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
-import Loading from "../../util/Loading";
 import { useHistory } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { getLocalToken } from "../../util/getLocalToken";
-import { getCurrentUser } from "../../redux/asyncActions/userActions";
+import { getUsersPlaylist } from "../../redux/asyncActions/spotifyActions";
 
 import styles from "./profile.module.scss";
 import "../../scss/_global.scss";
@@ -20,8 +19,16 @@ const Profile: React.FC = () => {
   const dispatch = useAppDispatch();
   const storedToken = getLocalToken();
   const { isAuthenticated } = useAppSelector(state => state.auth);
+  const playlistState = useAppSelector(state => state.spotify.playlists);
   const { user } = useAppSelector(state => state.user);
   const history = useHistory();
+  const playlists = playlistState.playlistList;
+
+  useEffect(() => {
+
+    dispatch(getUsersPlaylist())
+
+  }, [])
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -43,7 +50,7 @@ const Profile: React.FC = () => {
         <div className={styles.content}>
           <div className={styles.topRow}>
             <UserDetail user={user} />
-            <PlaylistList />
+            <PlaylistList playlists={playlists} />
             <Player />
           </div>
           <div className={styles.row}>

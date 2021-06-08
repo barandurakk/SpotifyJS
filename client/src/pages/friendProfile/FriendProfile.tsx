@@ -1,26 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../hooks/reduxHooks";
 import { useParams } from "react-router-dom"
-import { getProfile } from "../../redux/asyncActions/userActions";
-import UserDetail from "../../components/UserDetail/UserDetail";
+import { getProfile, sendRequest } from "../../redux/asyncActions/userActions";
+import FriendDetail from "../../components/FriendDetail/FriendDetail";
 import s from "./FriendProfile.module.scss";
 import "../../scss/_global.scss";
-
-// interface paramType {
-//     id: String
-// }
-
+import PlaylistList from "../../components/Playlist/PlaylistList";
+import { getUsersPlaylist } from "../../redux/asyncActions/spotifyActions";
 
 const FriendProfile: React.FC = () => {
     const dispatch = useAppDispatch();
     const { id } = useParams<any>();
-    const { loading, user } = useAppSelector(state => state.ui.profile)
+    const { user, playlists, isFriend } = useAppSelector(state => state.ui.profile)
+    const [reqSended, setReqSended] = useState<any>(false);
 
     useEffect(() => {
 
         dispatch(getProfile(id))
+        dispatch(getUsersPlaylist())
 
     }, [])
+
+    const sendFriendReq = () => {
+        dispatch(sendRequest(user.spotifyId))
+        setReqSended(true);
+    }
 
     console.log(user);
 
@@ -32,18 +36,35 @@ const FriendProfile: React.FC = () => {
                 className={s.coverContainer}>
             </div>
             <div className={s.body}>
-                <div className={s.content}>
-                    <div className={s.topRow}>
-                        <UserDetail user={user} />
-                        {/* <PlaylistList />
-                  <Player /> */}
+                {isFriend ? (
+                    <div className={s.content}>
+                        <div className={s.topRow}>
+                            <FriendDetail user={user} />
+                            <PlaylistList playlists={playlists} />
+                            {/* <Player />  */}
+                        </div>
+                        <div className={s.row}>
+                            {/* <TopTracks />
+                        <TopArtists />
+                        <RecentTracks /> */}
+                        </div>
                     </div>
-                    <div className={s.row}>
-                        {/* <TopTracks />
-                  <TopArtists />
-                  <RecentTracks /> */}
+                ) : (
+                    <div className={s.content}>
+                        <div className={s.topRow}>
+                            <FriendDetail user={user} />
+                            <div className={s.nonFriendDiv}>
+                                <span>To see music each other music taste, you have to be friends!</span>
+                                {reqSended ? (
+                                    <span>Request Sended!</span>
+                                ) : (
+                                    <button onClick={sendFriendReq}>Send Friend Request!</button>
+                                )}
+                            </div>
+                        </div>
                     </div>
-                </div>
+
+                )}
             </div>
         </>
     )
@@ -52,3 +73,4 @@ const FriendProfile: React.FC = () => {
 };
 
 export default FriendProfile;
+

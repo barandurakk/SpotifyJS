@@ -1,6 +1,8 @@
 const axios = require("axios");
 const setHeader = require("../util/setAuthHeader.js");
 const verifyUser = require("../middlewares/verifyUser");
+const mongoose = require("mongoose");
+const User = mongoose.model("users");
 
 module.exports = (app) => {
   //get users current track
@@ -8,7 +10,18 @@ module.exports = (app) => {
     axios
       .get("https://api.spotify.com/v1/me/player/currently-playing", setHeader(req.token))
       .then(async (currentTrack) => {
-        return res.status(200).send({ currentTrack: currentTrack.data });
+        User.findOneAndUpdate(
+          { spotifyId: req.user.spotifyId },
+          {
+            "spotifyDetails.currentlyListen": currentTrack.data.item,
+          }
+        )
+          .then(() => {
+            return res.status(200).send({ currentTrack: currentTrack.data });
+          })
+          .catch((err) => {
+            return res.status(500).send({ error: "Can't connect to local servers!" });
+          });
       })
       .catch((err) => {
         return res.status(500).send({ error: "Can't connect to spotify servers!" });
@@ -93,7 +106,18 @@ module.exports = (app) => {
     axios
       .get(`https://api.spotify.com/v1/me/playlists`, setHeader(req.token))
       .then(async (response) => {
-        return res.status(200).send(response.data);
+        User.findOneAndUpdate(
+          { spotifyId: req.user.spotifyId },
+          {
+            "spotifyDetails.playlists": response.data.items,
+          }
+        )
+          .then(() => {
+            return res.status(200).send(response.data);
+          })
+          .catch((err) => {
+            return res.status(500).send({ error: "Can't connect to local servers!" });
+          });
       })
       .catch((err) => {
         return res.status(500).send({ error: "Can't connect to spotify servers!" });

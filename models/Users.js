@@ -17,6 +17,10 @@ const userSchema = new Schema({
       profileImg: { type: String },
     },
   ],
+  spotifyDetails: {
+    playlists: [{ type: Object }],
+    currentlyListen: { type: Object },
+  },
 });
 
 userSchema.index({ display_name: "text", spotifyId: "text" });

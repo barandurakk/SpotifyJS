@@ -7,6 +7,7 @@ module.exports = (app) => {
   //send a friend request
   app.post("/api/request/send/:id", verifyUser, async (req, res) => {
     const recipientId = req.params.id;
+    console.log("ID: ", recipientId);
 
     if (!recipientId) {
       return res.status(400).send({ error: "You have to indicate a recipient and requester id!" });
@@ -77,7 +78,10 @@ module.exports = (app) => {
     if (!requestId) return res.status(400).send({ error: "You have to specify a request id!" });
 
     try {
-      const request = await FriendRequest.findOne({ _id: requestId, "recipient.id": req.user._id });
+      const request = await FriendRequest.findOne({
+        _id: requestId,
+        "recipient.id": req.user._id,
+      });
 
       if (!request)
         return res
@@ -190,29 +194,31 @@ module.exports = (app) => {
   //get a users profile
   app.get("/api/getProfile/:userId", verifyUser, async (req, res) => {
     const oUserId = req.params.userId;
-    const userId = req.user._id;
+    const userId = req.user.spotifyId;
 
     if (!oUserId) {
       return res.status(400).send({ error: "You have to specify a user id!" });
     }
 
     try {
-      const oUser = await User.findOne({ spotifyId: oUserId }, { friends: 0 });
-      if (!oUser) return res.status(404).send({ error: "There is no user by that id!" });
+      const existingFriend = await User.findOne(
+        {
+          $and: [{ spotifyId: oUserId }, { "friends.spotifyId": userId }],
+        },
+        { friends: 0 }
+      );
 
-      const existingFriend = await User.findOne({
-        $and: [{ _id: userId }, { "friends.spotifyId": oUserId }],
-      });
-
-      if (existingFriend) {
+      if (!existingFriend) {
+        const oUser = await User.findOne({ spotifyId: oUserId }, { friends: 0, spotifyDetails: 0 });
+        if (!oUser) return res.status(404).send({ error: "There is no user by that id!" });
+        return res.status(200).send({ user: oUser, friends: false });
+      } else {
         //users are friend
         //send also playlists
-        return res.status(200).send({ user: oUser, friends: true });
-      } else {
-        //users not friend
-        return res.status(200).send({ user: oUser, friends: false });
+        return res.status(200).send({ user: existingFriend, friends: true });
       }
     } catch (err) {
+      console.error(err);
       return res.status(500).send({ error: "Something wrong with local database!" });
     }
   });

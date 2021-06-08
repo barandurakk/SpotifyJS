@@ -30,7 +30,7 @@ const NavBar: React.FC = () => {
     ) : (
       <>
         <div className={styles.brandingWrapper}>
-          <h1>SpotifyJS</h1>
+          <Link to="/profile">SpotifyJS</Link>
         </div>
 
         <div className={styles.userActions}>

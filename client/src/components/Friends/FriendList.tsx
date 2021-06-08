@@ -36,7 +36,7 @@ const FriendList: React.FC = () => {
                         {
                             list.map((friend: any) => {
                                 return (
-                                    <Link to={`/user/${friend.id}`}>
+                                    <Link to={`/user/${friend.spotifyId}`}>
                                         <div className={s.item} key={friend.id}>
                                             <div className={s.itemContent}>
                                                 <div className={s.pictureWrapper} style={{ backgroundImage: `url(${friend.pictureUrl})` }}></div>

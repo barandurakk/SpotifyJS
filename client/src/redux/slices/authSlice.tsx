@@ -20,22 +20,6 @@ export const authSlice = createSlice({
   },
 
   extraReducers: {
-    //login
-    // [login.pending.toString()]: (state: any) => {
-    //   state.loading = true;
-
-    // },
-    // [login.fulfilled.toString()]: (state: any) => {
-    //   state.isAuthenticated = true
-    //   state.loading = false;
-    //   state.authError = null;
-    // },
-    // [login.rejected.toString()]: (state: any, action) => {
-
-    //   state.loading = false;
-    //   state.authError = action.error.error;
-    //   state.isAuthenticated = false;
-    // },
 
     //logout
     [logout.pending.toString()]: (state: any) => {
