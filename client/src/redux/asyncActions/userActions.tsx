@@ -94,6 +94,7 @@ export const getProfile = createAsyncThunk(
     async (userId: string, thunkAPI) => {
         try {
             const response = await axios.get(`/api/getProfile/${userId}`)
+            console.log("friend data: ", response.data)
             return response.data
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response.data);

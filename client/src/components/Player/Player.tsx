@@ -9,9 +9,9 @@ import RefreshButton from "../RefreshButton/RefreshButton";
 import styles from "./Player.module.scss";
 
 
-const Player: React.FC = () => {
+const Player: React.FC<any> = ({ player }: any) => {
     const dispatch = useAppDispatch();
-    const player = useAppSelector(state => state.spotify.currentTrack);
+    //const player = useAppSelector(state => state.spotify.currentTrack);
     const [isPlaying, setIsPlaying] = useState(player.isPlaying ? false : true)
 
     useEffect(() => {
@@ -55,7 +55,7 @@ const Player: React.FC = () => {
                                 {player.trackName.length > 40 ? `${player.trackName.slice(0, 38)}...` : `${player.trackName}`}
                             </a>
                             <div className={styles.artistsWrapper}>
-                                {player.trackArtists.map((artist, i) => {
+                                {player.trackArtists.map((artist: any, i: number) => {
                                     if (i === player.trackArtists.length - 1) {
                                         return <a target={"_blank"} href={artist.external_urls.spotify} key={i}><span>{artist.name}</span></a>
                                     } else {
@@ -63,21 +63,24 @@ const Player: React.FC = () => {
                                     }
                                 })}
                             </div>
-                            <div className={styles.playerWrapper}>
-                                {isPlaying ?
-                                    (
-                                        <span
-                                            onClick={() => handlePause()}
-                                            className={styles.playerIcon}
-                                        ><i className="fas fa-pause"></i></span>
-                                    ) : (
-                                        <span
-                                            onClick={() => handlePlay()}
-                                            className={styles.playerIcon}
-                                        ><i className="fas fa-play"></i></span>
-                                    )}
-                                <ProgressBar progress={player.progress} duration={player.duration} backgroundColor={"#121212"} progressColor={"#1db954"} width={10} />
-                            </div>
+                            {!player.isFriend && (
+                                <div className={styles.playerWrapper}>
+                                    {isPlaying ?
+                                        (
+                                            <span
+                                                onClick={() => handlePause()}
+                                                className={styles.playerIcon}
+                                            ><i className="fas fa-pause"></i></span>
+                                        ) : (
+                                            <span
+                                                onClick={() => handlePlay()}
+                                                className={styles.playerIcon}
+                                            ><i className="fas fa-play"></i></span>
+                                        )}
+                                    <ProgressBar progress={player.progress} duration={player.duration} backgroundColor={"#121212"} progressColor={"#1db954"} width={10} />
+                                </div>
+                            )}
+
                         </>
                     )}
             </div>

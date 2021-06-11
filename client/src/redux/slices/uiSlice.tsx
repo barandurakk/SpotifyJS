@@ -26,7 +26,8 @@ export const uiSlice = createSlice({
                 aboutText: "",
                 friends: []
             },
-            playlists: []
+            playlists: [],
+            currentlyPlaying: {}
         }
     },
 
@@ -68,7 +69,20 @@ export const uiSlice = createSlice({
             };
             state.profile.isFriend = action.payload.friends
             state.profile.loading = false;
-            state.profile.playlists = profile.spotifyDetails.playlists;
+            state.profile.playlists = profile.spotifyDetails?.playlists ? profile.spotifyDetails.playlists : [];
+            state.profile.currentlyPlaying = profile.spotifyDetails?.currentlyListen ? (
+                {
+                    trackType: "track",
+                    trackUrl: profile.spotifyDetails.currentlyListen.external_urls.spotify,
+                    trackName: profile.spotifyDetails.currentlyListen.name,
+                    trackArtists: profile.spotifyDetails.currentlyListen.artists,
+                    trackImg: profile.spotifyDetails.currentlyListen.album.images[0].url,
+                    // progress: 0,
+                    // duration: 0,
+                    isPlaying: true,
+                    isFriend: true
+                }
+            ) : {}
         },
         [getProfile.rejected.toString()]: (state: any) => {
             state.profile.loading = false;

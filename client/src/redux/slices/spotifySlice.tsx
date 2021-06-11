@@ -15,7 +15,8 @@ export const spotifySlice = createSlice({
             duration: 0,
             isPlaying: false,
             loading: false,
-            error: ""
+            error: "",
+            isFriend: false
         },
         topTracks: {
             loading: false,

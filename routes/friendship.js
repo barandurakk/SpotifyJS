@@ -215,6 +215,7 @@ module.exports = (app) => {
       } else {
         //users are friend
         //send also playlists
+
         return res.status(200).send({ user: existingFriend, friends: true });
       }
     } catch (err) {

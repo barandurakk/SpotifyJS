@@ -6,20 +6,19 @@ import FriendDetail from "../../components/FriendDetail/FriendDetail";
 import s from "./FriendProfile.module.scss";
 import "../../scss/_global.scss";
 import PlaylistList from "../../components/Playlist/PlaylistList";
-import { getUsersPlaylist } from "../../redux/asyncActions/spotifyActions";
+import Player from "../../components/Player/Player";
 
 const FriendProfile: React.FC = () => {
     const dispatch = useAppDispatch();
     const { id } = useParams<any>();
-    const { user, playlists, isFriend } = useAppSelector(state => state.ui.profile)
+    const { user, playlists, isFriend, currentlyPlaying } = useAppSelector(state => state.ui.profile)
     const [reqSended, setReqSended] = useState<any>(false);
 
     useEffect(() => {
 
         dispatch(getProfile(id))
-        dispatch(getUsersPlaylist())
 
-    }, [])
+    }, [id])
 
     const sendFriendReq = () => {
         dispatch(sendRequest(user.spotifyId))
@@ -41,7 +40,7 @@ const FriendProfile: React.FC = () => {
                         <div className={s.topRow}>
                             <FriendDetail user={user} />
                             <PlaylistList playlists={playlists} />
-                            {/* <Player />  */}
+                            <Player player={currentlyPlaying} />
                         </div>
                         <div className={s.row}>
                             {/* <TopTracks />
@@ -54,7 +53,7 @@ const FriendProfile: React.FC = () => {
                         <div className={s.topRow}>
                             <FriendDetail user={user} />
                             <div className={s.nonFriendDiv}>
-                                <span>To see music each other music taste, you have to be friends!</span>
+                                <span>To see each others music taste, you have to be friends!</span>
                                 {reqSended ? (
                                     <span>Request Sended!</span>
                                 ) : (

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { getLocalToken } from "../../util/getLocalToken";
-import { getUsersPlaylist } from "../../redux/asyncActions/spotifyActions";
+import { getUsersPlaylist, getCurrentTrack } from "../../redux/asyncActions/spotifyActions";
 
 import styles from "./profile.module.scss";
 import "../../scss/_global.scss";
@@ -23,10 +23,12 @@ const Profile: React.FC = () => {
   const { user } = useAppSelector(state => state.user);
   const history = useHistory();
   const playlists = playlistState.playlistList;
+  const player = useAppSelector(state => state.spotify.currentTrack)
 
   useEffect(() => {
 
     dispatch(getUsersPlaylist())
+    dispatch(getCurrentTrack());
 
   }, [])
 
@@ -51,7 +53,7 @@ const Profile: React.FC = () => {
           <div className={styles.topRow}>
             <UserDetail user={user} />
             <PlaylistList playlists={playlists} />
-            <Player />
+            <Player player={player} />
           </div>
           <div className={styles.row}>
             <TopTracks />
