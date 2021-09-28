@@ -37,7 +37,8 @@ module.exports = (app) => {
                 const user = await User.findOneAndUpdate(
                   { spotifyId: details.data.id },
                   {
-                    imageUrl: userImage,
+                    profileImg: userImage,
+                    coverUrl: userImage,
                   },
                   { new: true }
                 );

@@ -41,8 +41,6 @@ const Profile: React.FC = () => {
 
   return (
     <>
-
-
       <div style={{
         backgroundImage: `url(${user.coverUrl})`
       }}

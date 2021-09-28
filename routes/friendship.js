@@ -88,7 +88,7 @@ module.exports = (app) => {
           .status(404)
           .send({ error: "We couldn't find any request that match this parameters!" });
 
-      //update recipients friends
+      //alıcının arkadaş listesini güncelle
       await User.findOneAndUpdate(
         { _id: req.user._id },
         {
@@ -102,7 +102,7 @@ module.exports = (app) => {
           },
         }
       );
-      //update requesters friends
+      //göndericinin arkadaş listesini güncelle
       await User.findOneAndUpdate(
         { _id: request.requester.id },
         {
